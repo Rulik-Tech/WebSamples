@@ -22,6 +22,8 @@
         document.body.style.width="100vw";
         document.body.style.margin=0;
         document.body.style.display="block";
+
+        screen.orientation.lock("portrait");
                                 
         var canvas = document.createElement("Canvas");
         canvas.width  = document.body.clientWidth;
@@ -112,7 +114,6 @@
                 lbl.innerHTML = "Orientation not availanle";                
             }
         }
-
     </script>
 </body>
 </html>
