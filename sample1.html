@@ -18,12 +18,17 @@
             browser = "Safari";
         }
 
+        if(browser.localeCompare("Safari") == 0){
+            //document.body.requestFullscreen();
+        } else {
+            document.body.requestFullscreen();
+            screen.orientation.lock("portrait");
+        }
+
         document.body.style.height="100vh";
         document.body.style.width="100vw";
         document.body.style.margin=0;
         document.body.style.display="block";
-
-        screen.orientation.lock("portrait");
                                 
         var canvas = document.createElement("Canvas");
         canvas.width  = document.body.clientWidth;
@@ -102,6 +107,7 @@
 
         if(browser.localeCompare("Safari") == 0){
             btn.style.visibility = 'visible';
+
         } else {
             if (window.DeviceOrientationEvent) {
                 window.addEventListener("deviceorientation", (event) => {
