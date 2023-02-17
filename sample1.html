@@ -90,7 +90,7 @@
         }
 
         const handleOrientationEvent = (frontToBack, leftToRight, rotateDegrees) => {
-            lbl.innerHTML = `${rotateDegrees} ${leftToRight} ${frontToBack}`
+            lbl.innerHTML = `${rotateDegrees.tofixed(2)} ${leftToRight.tofixed(2)} ${frontToBack.tofixed(2)}`
         };
 
         if(browser.localeCompare("Safari") == 0){
