@@ -8,28 +8,39 @@
 </head>
 
 <body>
-    <button onclick="openFullscreen();">Open Fullscreen</button>
-    <button onclick="closeFullscreen();">Close Fullscreen</button>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
         var browser = "Uknown";
         if(navigator.userAgent.indexOf("Chrome") != -1 ){
-            browser = "Chrome v2";
+            browser = "Chrome v3";
         } else if(navigator.userAgent.indexOf("Safari") != -1) {
             browser = "Safari";
         }
 
-        var elem = document.documentElement;
-        var myScreenOrientation = window.screen.orientation;
+        var fullScreen = false;
+        var btn = document.createElement("Button");
+
+        function toggleFullScreen(){
+            if(fullScreen){
+                fullScreen = false;
+                closeFullscreen();
+            } else {
+                fullScreen = true;
+                openFullscreen();
+            }
+        }
 
         function openFullscreen() {
+            btn.textContent = "Exit Demo";
+            var elem = document.documentElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if (elem.webkitRequestFullscreen) { /* Safari */
                 elem.webkitRequestFullscreen();
-            }
-            myScreenOrientation.lock("portrait");
+            }            
+            var myScreenOrientation = window.screen.orientation;
+            myScreenOrientation.lock("portrait");            
         }                                
 
         function closeFullscreen() {
@@ -38,44 +49,55 @@
             } else if (document.webkitExitFullscreen) { /* Safari */
                 document.webkitExitFullscreen();
             }
+            btn.textContent = "Start Demo";
         }
 
-        document.body.style.height="100vh";
-        document.body.style.width="100vw";
+        var canvas = document.createElement("Canvas");
+        var ctx = canvas.getContext("2d");
+       
+
+        function onResize() {
+            canvas.width  = window.innerWidth;           
+            canvas.height = window.innerHeight;
+
+            ctx.font = "16px Arial";
+            //ctx.font = "16px Comic Sans MS";
+            ctx.fillStyle = "Lime";
+            ctx.fillText(browser, 10, 30);
+
+            btn.style.left = window.innerWidth/ 2 - 100 + "px";
+            btn.style.top = window.innerHeight * 0.8  + "px";
+        }                
+
         document.body.style.margin=0;
         document.body.style.display="block";
-                                
-        var canvas = document.createElement("Canvas");
-        canvas.width  = document.body.clientWidth;
-        canvas.height = document.body.clientHeight;
+
         canvas.style.display = "flex";
-        canvas.style.background = "#909090";     
-        
-        var ctx = canvas.getContext("2d");
-        ctx.font = "16px Arial";
-        //ctx.font = "16px Comic Sans MS";
-        ctx.fillStyle = "Lime";
-        ctx.fillText(browser, 10, 30);
+        canvas.style.background = "#909090"; 
+        window.addEventListener("resize", onResize);
         
         ctx.rect(canvas.width/2, canvas.height/2, 10, 10);
         ctx.fillStyle = "blue";
         ctx.fill();
         document.body.appendChild(canvas);
-        
-        let btn = document.createElement("Button");
+                
         btn.style.position = "absolute";
-        btn.style.left = document.body.clientWidth / 2 - 100 + "px";
-        btn.style.top = "150px";
+        btn.style.left = window.innerWidth/ 2 - 100 + "px";
+        btn.style.top = window.innerHeight * 0.8  + "px";
         btn.style.width = "200px";
         btn.style.height = 100  + "px";
         btn.style.background = 'DeepSkyBlue';
         btn.style.color = 'white';
-        btn.style.fontSize = '24px'
-        btn.style.borderRadius = "10px"
-        btn.style.visibility = 'hidden'
-        btn.addEventListener("click", getAccelerometerPermissions);
-        btn.innerHTML = "Get Accelerometer Permissions";
+        btn.style.fontSize = '24px';
+        btn.style.borderRadius = "10px";
+        btn.style.visibility = 'visible';
+        //btn.addEventListener("click", getAccelerometerPermissions);
+        //btn.innerHTML = "Get Accelerometer Permissions";
+        btn.addEventListener("click", toggleFullScreen);
+        btn.textContent = "Start Demo";
         document.body.appendChild(btn);
+
+        onResize();
 
         var lbl = document.createElement("Label");
         lbl.style.position = "absolute";
