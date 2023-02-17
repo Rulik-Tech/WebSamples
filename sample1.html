@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <button onclick="openFullscreen();">Open Fullscreen</button>
+    <button onclick="closeFullscreen();">Close Fullscreen</button>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
@@ -18,13 +20,24 @@
             browser = "Safari";
         }
 
-        if(browser.localeCompare("Safari") == 0){
-            //document.body.requestFullscreen();
-        } else {
-            var elem = document.documentElement;
-            elem.requestFullscreen();
-            var myScreenOrientation = window.screen.orientation;
+        var elem = document.documentElement;
+        var myScreenOrientation = window.screen.orientation;
+
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            }
             myScreenOrientation.lock("portrait");
+        }                                
+
+        function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            }
         }
 
         document.body.style.height="100vh";
