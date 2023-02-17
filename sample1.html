@@ -11,6 +11,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
+        var browser = "Uknown";
+        if(navigator.userAgent.indexOf("Chrome") != -1 ){
+            browser = "Chrome";
+        } else if(navigator.userAgent.indexOf("Safari") != -1) {
+            browser = "Safari";
+        }
+
         document.body.style.height="100vh";
         document.body.style.width="100vw";
         document.body.style.margin=0;
@@ -23,10 +30,10 @@
         canvas.style.background = "#909090";     
         
         var ctx = canvas.getContext("2d");
-        //ctx.font = "24px Arial";
-        ctx.font = "24px Comic Sans MS";
-        ctx.fillStyle = "#80E080";
-        //ctx.fillText("Gyroscope ", 10, 50);
+        ctx.font = "16px Arial";
+        //ctx.font = "16px Comic Sans MS";
+        ctx.fillStyle = "Lime";
+        ctx.fillText(browser, 10, 30);
         
         ctx.rect(canvas.width/2, canvas.height/2, 10, 10);
         ctx.fillStyle = "blue";
@@ -43,7 +50,7 @@
         btn.style.color = 'white';
         btn.style.fontSize = '24px'
         btn.style.borderRadius = "10px"
-        //btn.onclick = getAccelerometerPermissions;
+        btn.style.visibility = 'hidden'
         btn.addEventListener("click", getAccelerometerPermissions);
         btn.innerHTML = "Get Accelerometer Permissions";
         document.body.appendChild(btn);
@@ -86,6 +93,20 @@
             lbl.innerHTML = `${rotateDegrees} ${leftToRight} ${frontToBack}`
         };
 
+        if(browser.localeCompare("Safari") == 0){
+            btn.style.visibility = 'visible';
+        } else {
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener("deviceorientation", (event) => {
+                    const rotateDegrees = event.alpha; // alpha: rotation around z-axis
+                    const leftToRight = event.gamma; // gamma: left to right
+                    const frontToBack = event.beta; // beta: front back motion
+                    handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
+                    }, true);                    
+            } else {
+                lbl.innerHTML = "Orientation not availanle";
+            }
+        }
 
     </script>
 </body>
