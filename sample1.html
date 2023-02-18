@@ -55,7 +55,6 @@
         var canvas = document.createElement("Canvas");
         var ctx = canvas.getContext("2d");
        
-
         function onResize() {
             canvas.width  = window.innerWidth;           
             canvas.height = window.innerHeight;
@@ -76,9 +75,7 @@
         canvas.style.background = "#909090"; 
         window.addEventListener("resize", onResize);
         
-        ctx.rect(canvas.width/2, canvas.height/2, 10, 10);
-        ctx.fillStyle = "blue";
-        ctx.fill();
+
         document.body.appendChild(canvas);
                 
         btn.style.position = "absolute";
@@ -100,15 +97,21 @@
         onResize();
 
         var lbl = document.createElement("Label");
-        lbl.style.position = "absolute";
-        let lbl_width = document.body.clientWidth * 0.8;
-        lbl.style.width = document.body.clientWidth * 0.8 + "px";
-        lbl.style.left = document.body.clientWidth/2 - lbl_width/2  + "px";
-        lbl.style.top = 50 + "px";        
-        lbl.style.height = 50  + "px";        
-        lbl.style.fontSize = '24px'
-        lbl.innerHTML = "Here goes the text";
+        lbl.style.position = "absolute";        
+        lbl.style.width = "90%";
+        lbl.style.left = "5%";
+        lbl.style.top = "5%";        
+        lbl.style.fontSize = '24px'        
         document.body.appendChild(lbl);
+
+        function drawBars(frontToBack, leftToRight, rotateDegrees) {
+            // leftToRight -90 <> 90
+            let lr = leftToRight / 90.0;
+            let centerX = window.innerWidth/2 -5;
+            ctx.rect(centerX + centerX*lr, window.innerHeight/2 -5, 10, 10);
+            ctx.fillStyle = "blue";
+            ctx.fill();
+        }
 
         const rotateDegrees = 1; // alpha: rotation around z-axis
         const leftToRight = 2; // gamma: left to right
@@ -137,10 +140,11 @@
             frontToBack = frontToBack.toFixed(2);
             leftToRight = leftToRight.toFixed(2);
             rotateDegrees = rotateDegrees.toFixed(2);
-            lbl.innerHTML = `${rotateDegrees} ${leftToRight} ${frontToBack}`
+            lbl.textContent = `${rotateDegrees} ${leftToRight} ${frontToBack}`
+            drawBars(frontToBack, leftToRight, rotateDegrees);
         };
 
-        handleOrientationEvent(0.12344, 0.1244, 0.83264284);
+        handleOrientationEvent(0.12344, -30, 0.83264284);
 
         if(browser.localeCompare("Safari") == 0){
             btn.style.visibility = 'visible';
