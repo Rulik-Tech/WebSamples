@@ -40,7 +40,7 @@
                 elem.webkitRequestFullscreen();
             }            
             var myScreenOrientation = window.screen.orientation;
-            myScreenOrientation.lock("Portrait");
+            myScreenOrientation.lock("portrait");
             if(browser.localeCompare("Safari") == 0){
                 getAccelerometerPermissions();
             } else {
@@ -152,7 +152,7 @@
             }
         }
 
-        lbl.textContent = browser + " v8: " + lbl.textContent;
+        lbl.textContent = browser + " v9: " + lbl.textContent;
     </script>
 </body>
 </html>
