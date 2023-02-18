@@ -17,10 +17,39 @@
         } else if(navigator.userAgent.indexOf("Safari") != -1) {
             browser = "Safari";
         }
+        // This will set up document.body dimentions
+        document.body.style.width = "100vw";
+        document.body.style.height = "100vh";
+        document.body.style.margin=0;
+        document.body.style.display="inline-block";        
 
-        var fullScreen = false;
-        var btn = document.createElement("Button");
+        var infoSection = document.createElement("Section");
+        infoSection.style.width = "100%";
+        infoSection.style.height = "15%";
+        infoSection.style.display = "inline-block";        
+        infoSection.style.background = "Red";
+        infoSection.style.textAlign =  "left";
 
+        document.body.appendChild(infoSection);
+
+        var mainSection = document.createElement("Section");
+        mainSection.style.width = "100%";
+        mainSection.style.height = "70%";
+        mainSection.style.display = "block";        
+        mainSection.style.background = "Green";
+
+        document.body.appendChild(mainSection);
+
+        var controlSection = document.createElement("Section");
+        controlSection.style.width = "100%";
+        controlSection.style.height = "15%";
+        controlSection.style.display = "inline-block";
+        controlSection.style.background = "Blue";
+        controlSection.style.textAlign =  "center";
+        
+        document.body.appendChild(controlSection);
+
+        var fullScreen = false;        
         function toggleFullScreen(){
             if(fullScreen){
                 fullScreen = false;
@@ -58,53 +87,47 @@
             btn.textContent = "Start Demo";
         }
 
-        var canvas = document.createElement("Canvas");        
-       
+        var canvas = document.createElement("Canvas");
+        mainSection.appendChild(canvas);
+
         function onResize() {
-            canvas.width  = window.innerWidth;           
-            canvas.height = window.innerHeight;
-            btn.style.left = window.innerWidth/ 2 - 100 + "px";
-            btn.style.top = window.innerHeight * 0.8  + "px";
-        }                
+            canvas.width  = mainSection.offsetWidth;
+            canvas.height = mainSection.offsetHeight;
+            drawBars(0, 0, 0);
+        }
 
-        document.body.style.margin=0;
-        document.body.style.display="block";
-        canvas.style.display = "flex";
-        canvas.style.background = "Grey"; 
+        window.addEventListener('beforeShow', onResize, false);
         window.addEventListener("resize", onResize);        
-
-        document.body.appendChild(canvas);
-                
-        btn.style.position = "absolute";
-        btn.style.left = window.innerWidth/ 2 - 100 + "px";
-        btn.style.top = window.innerHeight * 0.8  + "px";
-        btn.style.width = "200px";
-        btn.style.height = 100  + "px";
+        
+        var btn = document.createElement("Button");
         btn.style.background = 'DeepSkyBlue';
         btn.style.color = 'white';
         btn.style.fontSize = '24px';
         btn.style.borderRadius = "10px";
         btn.style.visibility = 'visible';
+        btn.style.display = "inline-block";
+        btn.style.marginTop = "10px";
         btn.addEventListener("click", toggleFullScreen);
         btn.textContent = "Start Demo";
-        document.body.appendChild(btn);
 
+        controlSection.appendChild(btn);
         onResize();
 
-        var lbl = document.createElement("Label");
-        lbl.style.position = "absolute";        
-        lbl.style.width = "90%";
-        lbl.style.left = "5%";
-        lbl.style.top = "5%";        
+        var lbl = document.createElement("Label");        
+        lbl.style.width = "90%";        
+        lbl.style.display = "inline-block";
+        lbl.style.marginTop = "10px";
+        lbl.style.marginLeft = "10px";
         lbl.style.fontSize = '24px'        
-        document.body.appendChild(lbl);
+        
+        infoSection.appendChild(lbl);
 
         function drawBars(frontToBack, leftToRight, rotateDegrees) {
             // leftToRight -90 <> 90
             const lr = leftToRight / 90.0;
             const fb = frontToBack / 90.0;
-            const centerX = window.innerWidth/2 -5;
-            const centerY = window.innerHeight/2 -5;
+            const centerX = mainSection.offsetWidth/2 -5;
+            const centerY = mainSection.offsetHeight/2 -5;
             const ctx = canvas.getContext("2d");            
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
@@ -152,7 +175,7 @@
             }
         }
 
-        lbl.textContent = browser + " v9: " + lbl.textContent;
+        lbl.textContent = browser + " v1.0: " + lbl.textContent;
     </script>
 </body>
 </html>
