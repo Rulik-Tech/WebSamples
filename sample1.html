@@ -67,7 +67,7 @@
             ctx.font = "16px Arial";
             //ctx.font = "16px Comic Sans MS";
             ctx.fillStyle = "Lime";
-            ctx.fillText(browser + " v4", 10, 30);
+            ctx.fillText(browser + " v5", 10, 30);
 
             btn.style.left = window.innerWidth/ 2 - 100 + "px";
             btn.style.top = window.innerHeight * 0.8  + "px";
@@ -112,8 +112,9 @@
             let centerX = window.innerWidth/2 -5;
             let centerY = window.innerHeight/2 -5;
             const ctx = canvas.getContext("2d");
-            ctx.fillStyle = "rgba(0, 0, 0, 0)";            
-            ctx.fillRect(0, centerY, window.innerWidth, 10);
+            //ctx.fillStyle = "rgba(0, 0, 0, 0)";
+            ctx.fillStyle = "Gray";
+            ctx.fillRect(0, 100, window.innerWidth, window.innerHeight - 150);
             ctx.fillStyle = "blue";
             ctx.fillRect(centerX + centerX*lr, centerY, 10, 10);                        
         }
