@@ -63,13 +63,6 @@
         function onResize() {
             canvas.width  = window.innerWidth;           
             canvas.height = window.innerHeight;
-
-            const ctx = canvas.getContext("2d");
-            //ctx.font = "16px Arial";
-            //ctx.font = "16px Comic Sans MS";
-            //ctx.fillStyle = "Lime";
-            //ctx.fillText(browser + " v6", 10, 30);
-
             btn.style.left = window.innerWidth/ 2 - 100 + "px";
             btn.style.top = window.innerHeight * 0.8  + "px";
         }                
@@ -78,8 +71,7 @@
         document.body.style.display="block";
         canvas.style.display = "flex";
         canvas.style.background = "Grey"; 
-        window.addEventListener("resize", onResize);
-        
+        window.addEventListener("resize", onResize);        
 
         document.body.appendChild(canvas);
                 
@@ -113,8 +105,7 @@
             const fb = frontToBack / 90.0;
             const centerX = window.innerWidth/2 -5;
             const centerY = window.innerHeight/2 -5;
-            const ctx = canvas.getContext("2d");
-            //ctx.fillStyle = "rgba(0, 0, 0, 0)";
+            const ctx = canvas.getContext("2d");            
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
             ctx.fillStyle = "blue";
@@ -155,13 +146,13 @@
 
         function stopOrientationTracking(){
             if (window.DeviceOrientationEvent) {
-                window.element.removeEventListener("deviceorientation", orientationEventHandler, true);    
+                window.removeEventListener("deviceorientation", orientationEventHandler, true);    
             } else {
                 lbl.textContent = "Orientation not availanle";                
             }
         }
 
-        lbl.textContent = browser + " v7: " + lbl.textContent;
+        lbl.textContent = browser + " v8: " + lbl.textContent;
     </script>
 </body>
 </html>
