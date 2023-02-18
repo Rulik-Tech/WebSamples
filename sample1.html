@@ -13,7 +13,7 @@
     <script>
         var browser = "Uknown";
         if(navigator.userAgent.indexOf("Chrome") != -1 ){
-            browser = "Chrome v3";
+            browser = "Chrome";
         } else if(navigator.userAgent.indexOf("Safari") != -1) {
             browser = "Safari";
         }
@@ -63,10 +63,11 @@
             canvas.width  = window.innerWidth;           
             canvas.height = window.innerHeight;
 
-            //ctx.font = "16px Arial";
+            const ctx = canvas.getContext("2d");
+            ctx.font = "16px Arial";
             //ctx.font = "16px Comic Sans MS";
-            //ctx.fillStyle = "Lime";
-            //ctx.fillText(browser, 10, 30);
+            ctx.fillStyle = "Lime";
+            ctx.fillText(browser + " v4", 10, 30);
 
             btn.style.left = window.innerWidth/ 2 - 100 + "px";
             btn.style.top = window.innerHeight * 0.8  + "px";
@@ -75,7 +76,7 @@
         document.body.style.margin=0;
         document.body.style.display="block";
         canvas.style.display = "flex";
-        canvas.style.background = "#909090"; 
+        canvas.style.background = "Grey"; 
         window.addEventListener("resize", onResize);
         
 
@@ -111,10 +112,10 @@
             let centerX = window.innerWidth/2 -5;
             let centerY = window.innerHeight/2 -5;
             const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            ctx.rect(centerX + centerX*lr, centerY, 10, 10);
+            ctx.fillStyle = "rgba(0, 0, 0, 0)";            
+            ctx.fillRect(0, centerY, window.innerWidth, 10);
             ctx.fillStyle = "blue";
-            ctx.fill();
+            ctx.fillRect(centerX + centerX*lr, centerY, 10, 10);                        
         }
 
         const rotateDegrees = 1; // alpha: rotation around z-axis
