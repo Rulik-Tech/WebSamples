@@ -57,17 +57,16 @@
             btn.textContent = "Start Demo";
         }
 
-        var canvas = document.createElement("Canvas");
-        var ctx = canvas.getContext("2d");
+        var canvas = document.createElement("Canvas");        
        
         function onResize() {
             canvas.width  = window.innerWidth;           
             canvas.height = window.innerHeight;
 
-            ctx.font = "16px Arial";
+            //ctx.font = "16px Arial";
             //ctx.font = "16px Comic Sans MS";
-            ctx.fillStyle = "Lime";
-            ctx.fillText(browser, 10, 30);
+            //ctx.fillStyle = "Lime";
+            //ctx.fillText(browser, 10, 30);
 
             btn.style.left = window.innerWidth/ 2 - 100 + "px";
             btn.style.top = window.innerHeight * 0.8  + "px";
@@ -75,7 +74,6 @@
 
         document.body.style.margin=0;
         document.body.style.display="block";
-
         canvas.style.display = "flex";
         canvas.style.background = "#909090"; 
         window.addEventListener("resize", onResize);
@@ -112,7 +110,8 @@
             let lr = leftToRight / 90.0;
             let centerX = window.innerWidth/2 -5;
             let centerY = window.innerHeight/2 -5;
-            ctx.clearRect(0, centerY, window.innerWidth, 10);
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             ctx.rect(centerX + centerX*lr, centerY, 10, 10);
             ctx.fillStyle = "blue";
             ctx.fill();
