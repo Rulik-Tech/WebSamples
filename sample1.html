@@ -18,8 +18,8 @@
             browser = "Safari";
         }
         // This will set up document.body dimentions
-        document.body.style.width = "100vw";
-        document.body.style.height = "100vh";
+        document.body.style.width = "100%";
+        //document.body.style.height = "100vh";
         document.body.style.margin=0;
         document.body.style.display="inline-block";
         document.body.style.background = "Gray";
@@ -27,7 +27,8 @@
         var infoSection = document.createElement("Section");
         infoSection.style.width = "100%";
         //infoSection.style.height = "7%";
-        infoSection.style.display = "inline-block";        
+        infoSection.style.display = "inline-block";
+        infoSection.style.marginTop = "5%"
         //infoSection.style.background = "Red";
         infoSection.style.textAlign =  "center";
 
@@ -90,11 +91,11 @@
         canvas.style.display = "inline-block";
         canvas.style.borderStyle = "solid";
         canvas.style.borderBlockColor = "Black";
-        canvas.style.borderWidth = "2px"
+        canvas.style.borderWidth = "2px"        
         mainSection.appendChild(canvas);
 
         function onResize() {
-            const size = Math.min(document.body.clientWidth, document.body.clientHeight) * 0.8;
+            const size = Math.min(document.body.clientWidth, document.body.clientHeight);
             canvas.width  = size;
             canvas.height = size;
             drawBars(0, 0, 0);
@@ -110,7 +111,7 @@
         btn.style.borderRadius = "10px";
         btn.style.visibility = 'visible';
         btn.style.display = "inline-block";
-        btn.style.margin = "10px";
+        btn.style.margin = "5%";
         btn.addEventListener("click", toggleFullScreen);
         btn.textContent = "Start Demo";
 
