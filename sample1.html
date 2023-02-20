@@ -25,7 +25,7 @@
 
         var infoSection = document.createElement("Section");
         infoSection.style.width = "100%";
-        infoSection.style.height = "15%";
+        infoSection.style.height = "7%";
         infoSection.style.display = "inline-block";        
         infoSection.style.background = "Red";
         infoSection.style.textAlign =  "left";
@@ -34,7 +34,7 @@
 
         var mainSection = document.createElement("Section");
         mainSection.style.width = "100%";
-        mainSection.style.height = "70%";
+        mainSection.style.height = "60%";
         mainSection.style.display = "block";        
         mainSection.style.background = "Green";
 
@@ -42,7 +42,7 @@
 
         var controlSection = document.createElement("Section");
         controlSection.style.width = "100%";
-        controlSection.style.height = "15%";
+        controlSection.style.height = "33%";
         controlSection.style.display = "inline-block";
         controlSection.style.background = "Blue";
         controlSection.style.textAlign =  "center";
@@ -63,16 +63,22 @@
         function openFullscreen() {
             btn.textContent = "Exit Demo";
             var elem = document.documentElement;
+            lbl.textContent = "Step 1";
             if (elem.requestFullscreen) {
+                lbl.textContent = "Step 2";
                 elem.requestFullscreen();
             } else if (elem.webkitRequestFullscreen) { /* Safari */
+                lbl.textContent = "Step 3";
                 elem.webkitRequestFullscreen();
             }            
-            var myScreenOrientation = window.screen.orientation;
-            myScreenOrientation.lock("portrait");
             if(browser.localeCompare("Safari") == 0){
+                lbl.textContent = "Step 5";
                 getAccelerometerPermissions();
             } else {
+                lbl.textContent = "Step 4"
+                var myScreenOrientation = window.screen.orientation;
+                myScreenOrientation.lock("portrait");
+                lbl.textContent = "Step 5"
                 startOrientationTracking();
             }
         }                                
@@ -137,14 +143,16 @@
 
         function getAccelerometerPermissions(){
             if (window.DeviceOrientationEvent) {
+                lbl.textContent = "Step 6"
                 DeviceMotionEvent.requestPermission().then(response => {
                     if (response == 'granted') {
-                        lbl.innerHTML = "Orientation is availanle";
+                        lbl.textContent = "Orientation is availanle";
+                        lbl.textContent = "Step 7"
                         startOrientationTracking();
                     }
                 });
             } else {
-                lbl.innerHTML = "Orientation not availanle";
+                lbl.textContent = "Orientation not availanle";
             }
         }
 
