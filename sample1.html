@@ -21,30 +21,32 @@
         document.body.style.width = "100vw";
         document.body.style.height = "100vh";
         document.body.style.margin=0;
-        document.body.style.display="inline-block";        
+        document.body.style.display="inline-block";
+        document.body.style.background = "Gray";
 
         var infoSection = document.createElement("Section");
         infoSection.style.width = "100%";
-        infoSection.style.height = "7%";
+        //infoSection.style.height = "7%";
         infoSection.style.display = "inline-block";        
-        infoSection.style.background = "Red";
-        infoSection.style.textAlign =  "left";
+        //infoSection.style.background = "Red";
+        infoSection.style.textAlign =  "center";
 
         document.body.appendChild(infoSection);
 
         var mainSection = document.createElement("Section");
         mainSection.style.width = "100%";
-        mainSection.style.height = "60%";
-        mainSection.style.display = "block";        
-        mainSection.style.background = "Green";
+        //mainSection.style.height = "70%";
+        mainSection.style.textAlign =  "center";
+        mainSection.style.display = "inline-block";        
+        //mainSection.style.background = "Green";        
 
         document.body.appendChild(mainSection);
 
         var controlSection = document.createElement("Section");
         controlSection.style.width = "100%";
-        controlSection.style.height = "33%";
+        //controlSection.style.height = "33%";
         controlSection.style.display = "inline-block";
-        controlSection.style.background = "Blue";
+        //controlSection.style.background = "Blue";
         controlSection.style.textAlign =  "center";
         
         document.body.appendChild(controlSection);
@@ -62,15 +64,7 @@
 
         function openFullscreen() {
             btn.textContent = "Exit Demo";
-            var elem = document.documentElement;
-            lbl.textContent = "Step 1";
-            if (elem.requestFullscreen) {
-                lbl.textContent = "Step 2";
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) { /* Safari */
-                lbl.textContent = "Step 3";
-                elem.webkitRequestFullscreen();
-            }            
+            /*
             if(browser.localeCompare("Safari") == 0){
                 lbl.textContent = "Step 5";
                 getAccelerometerPermissions();
@@ -81,24 +75,28 @@
                 lbl.textContent = "Step 5"
                 startOrientationTracking();
             }
+            */
+            startOrientationTracking();
         }                                
 
         function closeFullscreen() {
             stopOrientationTracking();
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { /* Safari */
-                document.webkitExitFullscreen();
-            }
+            lbl.textContent = "Press button to start demo";
             btn.textContent = "Start Demo";
         }
 
         var canvas = document.createElement("Canvas");
+        canvas.style.borderRadius = "10px";
+        canvas.style.display = "inline-block";
+        canvas.style.borderStyle = "solid";
+        canvas.style.borderBlockColor = "Black";
+        canvas.style.borderWidth = "2px"
         mainSection.appendChild(canvas);
 
         function onResize() {
-            canvas.width  = mainSection.offsetWidth;
-            canvas.height = mainSection.offsetHeight;
+            const size = Math.min(document.body.clientWidth, document.body.clientHeight) * 0.8;
+            canvas.width  = size;
+            canvas.height = size;
             drawBars(0, 0, 0);
         }
 
@@ -112,7 +110,7 @@
         btn.style.borderRadius = "10px";
         btn.style.visibility = 'visible';
         btn.style.display = "inline-block";
-        btn.style.marginTop = "10px";
+        btn.style.margin = "10px";
         btn.addEventListener("click", toggleFullScreen);
         btn.textContent = "Start Demo";
 
@@ -121,9 +119,8 @@
 
         var lbl = document.createElement("Label");        
         lbl.style.width = "90%";        
-        lbl.style.display = "inline-block";
-        lbl.style.marginTop = "10px";
-        lbl.style.marginLeft = "10px";
+        lbl.style.display = "inline-block";        
+        lbl.style.margin = "10px";
         lbl.style.fontSize = '24px'        
         
         infoSection.appendChild(lbl);
@@ -132,11 +129,11 @@
             // leftToRight -90 <> 90
             const lr = leftToRight / 90.0;
             const fb = frontToBack / 90.0;
-            const centerX = mainSection.offsetWidth/2 -5;
-            const centerY = mainSection.offsetHeight/2 -5;
+            const centerX = canvas.width/2 -5;
+            const centerY = canvas.height/2 -5;
             const ctx = canvas.getContext("2d");            
             ctx.fillStyle = "Gray";
-            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "blue";
             ctx.fillRect(centerX + centerX*lr, centerY + centerY*fb, 10, 10);                        
         }        
@@ -183,8 +180,8 @@
             }
         }
 
-        //lbl.textContent = browser + " v1.0: " + lbl.textContent;
-        lbl.textContent = navigator.userAgent;
+        lbl.textContent = browser + " v1.0: " + lbl.textContent;
+        
     </script>
 </body>
 </html>
