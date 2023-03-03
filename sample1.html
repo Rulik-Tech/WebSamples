@@ -11,120 +11,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        var browser = "Uknown";
-        if(navigator.userAgent.indexOf("Chrome") != -1 ){
-            browser = "Chrome";
-        } else if(navigator.userAgent.indexOf("Safari") != -1) {
-            browser = "Safari";
-        }
         // This will set up document.body dimentions
-        document.body.style.width = "100%";
-        //document.body.style.height = "100vh";
+        document.body.style.width = "100vw";
+        document.body.style.height = "100vh";
         document.body.style.margin=0;
         document.body.style.display="inline-block";
         document.body.style.background = "Gray";
+        document.body.style.overflow = 'hidden';        
 
         var infoSection = document.createElement("Section");
-        infoSection.style.width = "100%";
-        //infoSection.style.height = "7%";
-        infoSection.style.display = "inline-block";
-        infoSection.style.marginTop = "5%"
-        //infoSection.style.background = "Red";
+        infoSection.style.width = "100vw";        
+        infoSection.style.display = "block";
+        infoSection.style.marginTop = "5vh"        
         infoSection.style.textAlign =  "center";
 
         document.body.appendChild(infoSection);
 
         var mainSection = document.createElement("Section");
-        mainSection.style.width = "100%";
-        //mainSection.style.height = "70%";
+        mainSection.style.width = "100vw";        
         mainSection.style.textAlign =  "center";
-        mainSection.style.display = "inline-block";        
-        //mainSection.style.background = "Green";        
+        mainSection.style.display = "inline-block";                
 
         document.body.appendChild(mainSection);
 
-        var controlSection = document.createElement("Section");
-        controlSection.style.width = "100%";
-        //controlSection.style.height = "33%";
-        controlSection.style.display = "inline-block";
-        //controlSection.style.background = "Blue";
-        controlSection.style.textAlign =  "center";
-        
-        document.body.appendChild(controlSection);
-
-        var fullScreen = false;        
-        function toggleFullScreen(){
-            if(fullScreen){
-                fullScreen = false;
-                closeFullscreen();
+        var demoMode = false;        
+        function toggleDemoMode(){
+            if(demoMode){
+                demoMode = false;
+                stopDemo();
             } else {
-                fullScreen = true;
-                openFullscreen();
+                demoMode = true;
+                startDemo();
             }
         }
 
-        function openFullscreen() {
+        function startDemo() {
             btn.textContent = "Exit Demo";
-            /*
-            if(browser.localeCompare("Safari") == 0){
-                lbl.textContent = "Step 5";
-                getAccelerometerPermissions();
-            } else {
-                lbl.textContent = "Step 4"
-                var myScreenOrientation = window.screen.orientation;
-                myScreenOrientation.lock("portrait");
-                lbl.textContent = "Step 5"
-                startOrientationTracking();
-            }
-            */
             startOrientationTracking();
         }                                
 
-        function closeFullscreen() {
+        function stopDemo() {
             stopOrientationTracking();
             lbl.textContent = "Press button to start demo";
             btn.textContent = "Start Demo";
         }
 
-        var canvas = document.createElement("Canvas");
-        canvas.style.borderRadius = "10px";
-        canvas.style.display = "inline-block";
-        canvas.style.borderStyle = "solid";
-        canvas.style.borderBlockColor = "Black";
-        canvas.style.borderWidth = "2px"        
-        mainSection.appendChild(canvas);
-
-        function onResize() {
-            const size = Math.min(document.body.clientWidth, document.body.clientHeight);
-            canvas.width  = size;
-            canvas.height = size;
-            drawBars(0, 0, 0);
-        }
-
-        window.addEventListener('beforeShow', onResize, false);
-        window.addEventListener("resize", onResize);        
-        
-        var btn = document.createElement("Button");
-        btn.style.background = 'DeepSkyBlue';
-        btn.style.color = 'white';
-        btn.style.fontSize = '24px';
-        btn.style.borderRadius = "10px";
-        btn.style.visibility = 'visible';
-        btn.style.display = "inline-block";
-        btn.style.margin = "5%";
-        btn.addEventListener("click", toggleFullScreen);
-        btn.textContent = "Start Demo";
-
-        controlSection.appendChild(btn);
-        onResize();
-
+        // Create Label
         var lbl = document.createElement("Label");        
-        lbl.style.width = "90%";        
-        lbl.style.display = "inline-block";        
+        lbl.style.width = "100vw";
+        lbl.style.display = "block";        
         lbl.style.margin = "10px";
         lbl.style.fontSize = '24px'        
         
         infoSection.appendChild(lbl);
+
+
+        // Create canvas area
+        var canvas = document.createElement("Canvas");
+        canvas.style.borderRadius = "10px";
+        canvas.style.display = "inline-block";
+        canvas.style.border = "medium solid black";                   
+        mainSection.appendChild(canvas);
+
+
+        var btn = document.createElement("Button");
+        btn.style.background = 'DeepSkyBlue';
+        btn.style.color = 'white';
+        btn.style.height = '10vw';
+        btn.style.width = '30vw';
+        btn.style.fontSize = '3vw';
+        btn.style.borderRadius = "10px";
+        btn.style.border= "medium solid black"; // width | style | color 
+        btn.style.visibility = 'visible';
+        btn.style.display = "block";
+        btn.style.marginTop = "15vh";        
+        btn.style.marginLeft = "auto";
+        btn.style.marginRight = "auto";
+        
+
+        btn.addEventListener("click", toggleDemoMode);
+        btn.textContent = "Start Demo";
+        //btn.style.float = "none";
+        
+        mainSection.appendChild(btn);
+
+        function onResize() {
+            // Simple detection of protrait / landscape orientation
+            if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode                
+                canvas.width = document.body.clientHeight * 0.7;
+                btn.style.float = "right";
+                btn.style.marginRight = "5vw";
+                lbl.style.width = "50vw";
+                btn.style.marginTop = canvas.width / 2;
+            } else { // Portrait mode                
+                canvas.width = document.body.clientWidth * 0.7;
+                btn.style.float = "none";
+                btn.style.marginRight = "auto";
+                btn.style.marginTop = "15vh";
+                lbl.style.width = "100vw";
+            }
+            canvas.height = canvas.width;
+            drawBars(0, 0, 0);
+            lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();
+        }
+
+        onResize();
+
+        window.addEventListener('beforeShow', onResize, false);
+        window.addEventListener("resize", onResize, false);        
+        
 
         function drawBars(frontToBack, leftToRight, rotateDegrees) {
             // leftToRight -90 <> 90
@@ -162,7 +157,7 @@
             drawBars(frontToBack, leftToRight, rotateDegrees);            
         }
 
-        orientationEventHandler({alpha: 10, beta:-20, gamma:0});
+        //orientationEventHandler({alpha: 10, beta:-20, gamma:0});
 
         // mousemoveHandler
         function startOrientationTracking(){
@@ -181,8 +176,8 @@
             }
         }
 
-        lbl.textContent = browser + " v1.0: " + lbl.textContent;
-        
+        lbl.textContent = "v1.1: " + lbl.textContent;
+
     </script>
 </body>
 </html>
