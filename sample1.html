@@ -20,7 +20,7 @@
         document.body.style.textAlign = "center";
 
         var ul = document.createElement('ul');
-        ul.style.width = "90vw";
+        //ul.style.width = "90vw";
         ul.style.marginTop = "24px";
         ul.style.display = "inline-block";
         ul.style.listStyle = "none";
@@ -101,7 +101,7 @@
                 canvas.width = document.body.clientHeight * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
                     ul.children[i].style.float = "left";
-                    ul.children[i].style.marginRight = "24px";
+                    ul.children[i].style.marginRight = "18px";
                 }                
             } else { // Portrait mode
                 canvas.width = document.body.clientWidth * 0.7;
@@ -174,7 +174,7 @@
             }
         }
 
-        lbl.textContent = "v1.3: " + lbl.textContent;
+        lbl.textContent = "v1.5: " + lbl.textContent;
 
     </script>
 </body>
