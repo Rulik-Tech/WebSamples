@@ -20,7 +20,7 @@
         document.body.style.textAlign = "center";
 
         var ul = document.createElement('ul');
-        ul.style.marginTop = "100px";
+        ul.style.marginTop = "50px";
         ul.style.display = "inline-block";
 
         var liArr = [];
@@ -28,7 +28,7 @@
             let li = document.createElement('li');
             li.style.listStyleType = "none"; // Remove dots
             li.style.textAlign = "center";
-            li.style.margin = "30px"            
+            li.style.margin = "50px";
             ul.appendChild(li);
             liArr.push(li);
         }        
@@ -91,15 +91,17 @@
         function onResize() {
             // Simple detection of protrait / landscape orientation
             if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
+                canvas.width = document.body.clientHeight * 0.5;
                 for (let i = 0; i < liArr.length; i++) {
                     liArr[i].style.float = "left";
                 }
-                canvas.width = document.body.clientHeight * 0.7;
+                
             } else { // Portrait mode
+                canvas.width = document.body.clientWidth * 0.7;
                 for (let i = 0; i < liArr.length; i++) {
                     liArr[i].style.float = "none";
                 } 
-                canvas.width = document.body.clientWidth * 0.7;                
+                             
             }
             
             canvas.height = canvas.width;
