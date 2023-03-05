@@ -20,18 +20,13 @@
         document.body.style.textAlign = "center";
 
         var ul = document.createElement('ul');
-        ul.style.marginTop = "50px";
+        ul.style.marginTop = "24px";
         ul.style.display = "inline-block";
-
-        var liArr = [];
-        for (let i = 0; i < 3; i++) {
-            let li = document.createElement('li');
-            li.style.listStyleType = "none"; // Remove dots
-            li.style.textAlign = "center";
-            li.style.margin = "50px";
-            ul.appendChild(li);
-            liArr.push(li);
-        }        
+        ul.style.listStyle = "none";
+        ul.style.paddingLeft = "0"        
+        ul.style.textAlign = "center";
+        ul.style.backgroundColor = "green"
+    
 
         document.body.appendChild(ul);        
 
@@ -61,47 +56,58 @@
         var lbl = document.createElement("Label");
         lbl.style.display = "inline-block";
         lbl.style.height = '60px';
-        lbl.style.width = '240px';
+        lbl.style.width = '200px';
         lbl.style.fontSize = '24px';
         lbl.style.border= "medium solid black"; // width | style | color 
         lbl.style.borderRadius = "10px";
-        liArr[0].appendChild(lbl);
+        lbl.style.marginBottom = "24px";
+        
+        
+        ul.appendChild(lbl);
 
         // Create canvas area
         var canvas = document.createElement("Canvas");
+        canvas.style.display = "block";
         canvas.style.borderRadius = "10px";        
         canvas.style.border = "medium solid black";
-        liArr[1].appendChild(canvas);
+        canvas.style.marginBottom = "24px";
+
+        
+        //liArr[1].appendChild(canvas);
+        ul.appendChild(canvas);
 
         var btn = document.createElement("Button");
         btn.style.display = "inline-block";
         btn.style.background = 'DeepSkyBlue';
         btn.style.color = 'white';
         btn.style.height = '60px';
-        btn.style.width = '240px';
+        btn.style.width = '200px';
         btn.style.fontSize = '24px';
         btn.style.borderRadius = "10px";
         btn.style.border= "medium solid black"; // width | style | color 
+        btn.style.marginBottom = "24px";        
+        
 
         btn.addEventListener("click", toggleDemoMode);
         btn.textContent = "Start Demo";
         
-        liArr[2].appendChild(btn);
+        //liArr[2].appendChild(btn);
+        ul.appendChild(btn)
 
         function onResize() {
             // Simple detection of protrait / landscape orientation
             if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
-                canvas.width = document.body.clientHeight * 0.5;
-                for (let i = 0; i < liArr.length; i++) {
-                    liArr[i].style.float = "left";
-                }
-                
+                canvas.width = document.body.clientHeight * 0.7;
+                for (let i = 0; i < ul.children.length; i++) {
+                    ul.children[i].style.float = "left";
+                    ul.children[i].style.marginRight = "24px";
+                }                
             } else { // Portrait mode
                 canvas.width = document.body.clientWidth * 0.7;
-                for (let i = 0; i < liArr.length; i++) {
-                    liArr[i].style.float = "none";
-                } 
-                             
+                for (let i = 0; i < ul.children.length; i++) {
+                    ul.children[i].style.float = "none";
+                    ul.children[i].style.marginRight = 0;
+                }
             }
             
             canvas.height = canvas.width;
@@ -167,7 +173,7 @@
             }
         }
 
-        lbl.textContent = "v1.2: " + lbl.textContent;
+        lbl.textContent = "v1.3: " + lbl.textContent;
 
     </script>
 </body>
