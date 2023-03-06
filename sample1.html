@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.06";
+        const version = "Sample1 v1.07";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -120,9 +120,9 @@
             
             canvas.height = canvas.width;
             if(portraitMode) {
-                drawOrientation(45, 0, 0);
+                drawOrientation(0, 45, 0);
             } else {
-                drawOrientation(0, -45, 0);
+                drawOrientation(0, -0, -45);
             }
             //lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();            
         }
@@ -140,21 +140,21 @@
             return center + (center - radius)*pos;
         }
 
-        function drawOrientation(frontToBack, leftToRight, rotateDegrees) {
+        function drawOrientation(alpha, beta, gamma) {
             let x, y, r;
-            const offset = 45; // It it common to hold device at 45 degree
-            const scale = 15; // 15 degree scale
-            const radius = 16;
+            const offset = 45.0; // It it common to hold device at 45 degree
+            const scale = 15.0; // 15 degree scale
+            const radius = 16.0;
             if (portraitMode){
-                x = leftToRight / scale;
-                y = (frontToBack - offset) / scale;
+                x = gamma / scale;
+                y = (beta - offset) / scale;
             } else {
-                x = frontToBack / scale;
-                y = (leftToRight + offset) / scale;
+                x = beta / scale;
+                y = (gamma + offset) / scale;
             }
 
-            const centerX = canvas.width/2;
-            const centerY = canvas.height/2;
+            const centerX = canvas.width/2.0;
+            const centerY = canvas.height/2.0;
             const ctx = canvas.getContext("2d");
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -166,11 +166,11 @@
         }        
 
         function orientationEventHandler(event){
-            const rotateDegrees = event.alpha.toFixed(0); // alpha: rotation around z-axis
-            const frontToBack = event.beta.toFixed(0); // beta: front back motion
-            const leftToRight = event.gamma.toFixed(0); // gamma: left to right            
-            lbl.textContent = "A: " +frontToBack + "B: " + leftToRight + "G: " +  rotateDegrees;
-            drawOrientation(frontToBack, leftToRight, rotateDegrees);            
+            const alpha = event.alpha.toFixed(0); // alpha: rotation around z-axis
+            const beta = event.beta.toFixed(0); // beta: front back motion
+            const gamma = event.gamma.toFixed(0); // gamma: left to right            
+            lbl.textContent = "A: " + alpha + " B: " + beta + " G: " +  gamma;
+            drawOrientation(alpha, beta, gamma);            
         }
 
         function getAccelerometerPermissions(){
