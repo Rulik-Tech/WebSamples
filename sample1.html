@@ -11,6 +11,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
+        function mobile_iOS(){            
+            return ['iPad','iPhone'].includes(navigator.platform)
+        }
+
         // This will set up document.body dimentions
         document.body.style.width = "100vw";
         document.body.style.height = "100vh";
@@ -160,11 +164,11 @@
 
         function startOrientationTracking(){
             if (window.DeviceOrientationEvent) {
-                DeviceMotionEvent.requestPermission().then(response => {
-                    if (response == 'granted') {
-                        window.addEventListener("deviceorientation", orientationEventHandler, true);
-                    }
-                });                
+                if(mobile_iOS()){
+                    getAccelerometerPermissions();
+                } else {
+                    window.addEventListener("deviceorientation", orientationEventHandler, true);
+                }
             } else {
                 lbl.textContent = "Orientation not availanle";                
             }
@@ -178,7 +182,7 @@
             }
         }
 
-        lbl.textContent = "v1.8: " + lbl.textContent;
+        lbl.textContent = "v1.9: " + lbl.textContent;
 
     </script>
 </body>
