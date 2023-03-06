@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.10";
+        const version = "Sample1 v1.11";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -120,7 +120,7 @@
             
             canvas.height = canvas.width;
             if(portraitMode) {
-                drawOrientation(0, 35, 0);
+                drawOrientation(350, 35, 0);
             } else {
                 drawOrientation(0, -0, -25);
             }
@@ -159,9 +159,12 @@
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
-            ctx.fillStyle = "MediumBlue";
+            ctx.fillStyle = "DeepSkyBlue";
 
-            ctx.arc(toRange(centerX, x, radius), toRange(centerY, y, radius), radius, 0.75* Math.PI, 0.25 * Math.PI);
+            let startAngle = (alpha / 360) * 2 * Math.PI + 0.50;
+            let endAngle = (alpha / 360) * 2 * Math.PI - 0.50;
+
+            ctx.arc(toRange(centerX, x, radius), toRange(centerY, y, radius), radius, startAngle, endAngle);
             ctx.fill();            
         }        
 
