@@ -29,7 +29,7 @@
         ul.style.marginRight = "auto";
     
 
-        document.body.appendChild(ul);        
+        document.body.appendChild(ul);
 
         var demoMode = false;        
         function toggleDemoMode(){
@@ -117,7 +117,6 @@
 
         onResize();
 
-        //window.addEventListener('beforeShow', onResize, false);
         window.addEventListener("resize", onResize, false);        
         
 
@@ -161,7 +160,11 @@
 
         function startOrientationTracking(){
             if (window.DeviceOrientationEvent) {
-                window.addEventListener("deviceorientation", orientationEventHandler, true);
+                DeviceMotionEvent.requestPermission().then(response => {
+                    if (response == 'granted') {
+                        window.addEventListener("deviceorientation", orientationEventHandler, true);
+                    }
+                });                
             } else {
                 lbl.textContent = "Orientation not availanle";                
             }
