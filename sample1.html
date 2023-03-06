@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "v1.03";
+        const version = "Sample1 v1.04";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -56,7 +56,7 @@
         function stopDemo() {
             stopOrientationTracking();            
             btn.textContent = "Start Demo";
-            lbl.textContent = version + " " + navigator.platform;
+            lbl.textContent = version;
         }
 
         // Create Label
@@ -119,19 +119,40 @@
             }
             
             canvas.height = canvas.width;
-            drawOrientation(0, 0, 0);
-            lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();
+            if(portraitMode) {
+                drawOrientation(45, 0, 0);
+            } else {
+                drawOrientation(0, -45, 0);
+            }
+            //lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();            
         }
 
         onResize();
 
         window.addEventListener("resize", onResize, false);        
         
+        function toRange(center, pos, radius) {            
+            if(pos < -1.0) {
+                pos = -1.0;
+            } else if (pos > 1.0) {
+                pos = 1.0;
+            }
+            return center + (center - radius)*pos;
+        }
 
         function drawOrientation(frontToBack, leftToRight, rotateDegrees) {
-            // leftToRight -90 <> 90
-            const l2r = leftToRight / 90.0;
-            const f2b = frontToBack / 90.0;
+            let x, y, r;
+            const offset = 45; // It it common to hold device at 45 degree
+            const scale = 15; // 15 degree scale
+            const radius = 16;
+            if (portraitMode){
+                x = (frontToBack - offset) / scale;
+                y = leftToRight / scale;
+            } else {
+                x = (leftToRight + offset) / scale;
+                y = frontToBack / scale;
+            }
+
             const centerX = canvas.width/2;
             const centerY = canvas.height/2;
             const ctx = canvas.getContext("2d");
@@ -139,13 +160,8 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
             ctx.fillStyle = "MediumBlue";
-            let X = centerX + centerX*l2r;
-            let Y = centerY + centerY*f2b;
-            if (portraitMode){
-                ctx.arc(X, Y, 10, 0, 1.5 * Math.PI);                
-            } else {
-                ctx.arc(Y, X, 10, 0, 1.5 * Math.PI);
-            }
+
+            ctx.arc(toRange(centerX, x, radius), toRange(centerY, y, radius), radius, 0, 1.5 * Math.PI);
             ctx.fill();            
         }        
 
@@ -153,7 +169,7 @@
             const rotateDegrees = event.alpha.toFixed(0); // alpha: rotation around z-axis
             const frontToBack = event.beta.toFixed(0); // beta: front back motion
             const leftToRight = event.gamma.toFixed(0); // gamma: left to right            
-            lbl.textContent = frontToBack + "\t" + leftToRight + "\t" +  rotateDegrees;
+            lbl.textContent = "A: " +frontToBack + "B: " + leftToRight + "G: " +  rotateDegrees;
             drawOrientation(frontToBack, leftToRight, rotateDegrees);            
         }
 
@@ -183,7 +199,7 @@
             }
         }
 
-        lbl.textContent = version + " " + navigator.platform;
+        lbl.textContent = version;
 
     </script>
 </body>
