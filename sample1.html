@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.08";
+        const version = "Sample1 v1.09";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -120,9 +120,9 @@
             
             canvas.height = canvas.width;
             if(portraitMode) {
-                drawOrientation(0, 45, 0);
+                drawOrientation(0, 35, 0);
             } else {
-                drawOrientation(0, -0, -45);
+                drawOrientation(0, -0, -35);
             }
             //lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();            
         }
@@ -142,7 +142,7 @@
 
         function drawOrientation(alpha, beta, gamma) {
             let x, y, r;
-            const offset = 45.0; // It it common to hold device at 45 degree
+            const offset = 35.0; // It it common to hold device at 45 degree
             const scale = 15.0; // 15 degree scale
             const radius = 16.0;
             if (portraitMode){
