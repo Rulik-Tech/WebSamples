@@ -15,7 +15,7 @@
         document.body.style.width = "100vw";
         document.body.style.height = "100vh";
         document.body.style.margin=0;        
-        document.body.style.background = "Gray";
+        document.body.style.background = "Silver";
         document.body.style.overflow = 'hidden';
         document.body.style.textAlign = "center";
 
@@ -25,8 +25,7 @@
         ul.style.display = "inline-block";
         ul.style.listStyle = "none";
         ul.style.paddingLeft = "0"        
-        ul.style.textAlign = "center";
-        ul.style.backgroundColor = "green"
+        ul.style.textAlign = "center";        
     
 
         document.body.appendChild(ul);        
@@ -62,6 +61,7 @@
         lbl.style.border= "medium solid black"; // width | style | color 
         lbl.style.borderRadius = "10px";
         lbl.style.marginBottom = "58px";
+        lbl.style.lineHeight = "60px";
         
         
         ul.appendChild(lbl);
@@ -128,11 +128,13 @@
             const fb = frontToBack / 90.0;
             const centerX = canvas.width/2 - 5;
             const centerY = canvas.height/2 - 5;
-            const ctx = canvas.getContext("2d");            
+            const ctx = canvas.getContext("2d");
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "blue";
-            ctx.fillRect(centerX + centerX*lr, centerY + centerY*fb, 10, 10);                        
+            ctx.beginPath();
+            ctx.fillStyle = "MediumBlue";
+            ctx.arc(centerX + centerX*lr, centerY + centerY*fb, 10, 0, 1.5 * Math.PI);
+            ctx.fill();            
         }        
 
         function getAccelerometerPermissions(){
@@ -174,7 +176,7 @@
             }
         }
 
-        lbl.textContent = "v1.6: " + lbl.textContent;
+        lbl.textContent = "v1.7: " + lbl.textContent;
 
     </script>
 </body>
