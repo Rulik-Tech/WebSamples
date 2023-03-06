@@ -139,27 +139,20 @@
             ctx.fill();            
         }        
 
-        function getAccelerometerPermissions(){
-            if (window.DeviceOrientationEvent) {
-                lbl.textContent = "Step 6"
-                DeviceMotionEvent.requestPermission().then(response => {
-                    if (response == 'granted') {
-                        lbl.textContent = "Orientation is availanle";
-                        lbl.textContent = "Step 7"
-                        startOrientationTracking();
-                    }
-                });
-            } else {
-                lbl.textContent = "Orientation not availanle";
-            }
-        }
-
         function orientationEventHandler(event){
             const rotateDegrees = event.alpha.toFixed(0); // alpha: rotation around z-axis
             const frontToBack = event.beta.toFixed(0); // beta: front back motion
             const leftToRight = event.gamma.toFixed(0); // gamma: left to right            
             lbl.textContent = frontToBack + "\t" + leftToRight + "\t" +  rotateDegrees;
             drawBars(frontToBack, leftToRight, rotateDegrees);            
+        }
+
+        function getAccelerometerPermissions(){
+            DeviceMotionEvent.requestPermission().then(response => {
+                if (response == 'granted') {
+                    window.addEventListener("deviceorientation", orientationEventHandler, true);
+                }
+            });
         }
 
         function startOrientationTracking(){
@@ -177,12 +170,10 @@
         function stopOrientationTracking(){
             if (window.DeviceOrientationEvent) {
                 window.removeEventListener("deviceorientation", orientationEventHandler, true);    
-            } else {
-                lbl.textContent = "Orientation not availanle";                
             }
         }
 
-        lbl.textContent = "v1.9: " + navigator.platform;
+        lbl.textContent = "v1.10: " + navigator.platform;
 
     </script>
 </body>
