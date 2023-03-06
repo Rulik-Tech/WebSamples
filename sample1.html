@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.05";
+        const version = "Sample1 v1.06";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -120,7 +120,7 @@
             
             canvas.height = canvas.width;
             if(portraitMode) {
-                drawOrientation(0, 45, 0);
+                drawOrientation(45, 0, 0);
             } else {
                 drawOrientation(0, -45, 0);
             }
@@ -146,11 +146,11 @@
             const scale = 15; // 15 degree scale
             const radius = 16;
             if (portraitMode){
-                x = (leftToRight - offset) / scale;
-                y = frontToBack / scale;
+                x = leftToRight / scale;
+                y = (frontToBack - offset) / scale;
             } else {
-                x = (frontToBack + offset) / scale;
-                y = leftToRight / scale;
+                x = frontToBack / scale;
+                y = (leftToRight + offset) / scale;
             }
 
             const centerX = canvas.width/2;
