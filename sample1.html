@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.11";
+        const version = "Sample1 v1.12";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -161,10 +161,11 @@
             ctx.beginPath();
             ctx.fillStyle = "DeepSkyBlue";
 
-            let startAngle = (alpha / 360) * 2 * Math.PI + 0.50;
-            let endAngle = (alpha / 360) * 2 * Math.PI - 0.50;
+            let startAngle = (alpha / 360) * 2 * Math.PI + 0.40;
+            let endAngle = (alpha / 360) * 2 * Math.PI - 0.40;
 
             ctx.arc(toRange(centerX, x, radius), toRange(centerY, y, radius), radius, startAngle, endAngle);
+            ctx.lineTo(centerX, centerY);
             ctx.fill();            
         }        
 
