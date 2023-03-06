@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        const version = "Sample1 v1.07";
+        const version = "Sample1 v1.08";
         var portraitMode = true;
 
         function mobile_iOS(){            
@@ -64,7 +64,7 @@
         lbl.style.display = "inline-block";
         lbl.style.height = '60px';
         lbl.style.width = '200px';
-        lbl.style.fontSize = '24px';
+        lbl.style.fontSize = '20px';
         lbl.style.border= "medium solid black"; // width | style | color 
         lbl.style.borderRadius = "10px";
         lbl.style.marginBottom = "58px";
@@ -88,7 +88,7 @@
         btn.style.color = 'white';
         btn.style.height = '60px';
         btn.style.width = '180px';
-        btn.style.fontSize = '24px';
+        btn.style.fontSize = '20px';
         btn.style.borderRadius = "10px";
         btn.style.border= "medium solid black"; // width | style | color 
         btn.style.marginBottom = "58px";        
@@ -166,11 +166,11 @@
         }        
 
         function orientationEventHandler(event){
-            const alpha = event.alpha.toFixed(0); // alpha: rotation around z-axis
-            const beta = event.beta.toFixed(0); // beta: front back motion
-            const gamma = event.gamma.toFixed(0); // gamma: left to right            
-            lbl.textContent = "A: " + alpha + " B: " + beta + " G: " +  gamma;
-            drawOrientation(alpha, beta, gamma);            
+            const a = event.alpha.toFixed(0); // alpha: rotation around z-axis
+            const b = event.beta.toFixed(0); // beta: front back motion
+            const g = event.gamma.toFixed(0); // gamma: left to right            
+            lbl.textContent = "A: " + a + " B: " + b + " G: " +  g;
+            drawOrientation(event.alpha, event.beta, event.gamma);
         }
 
         function getAccelerometerPermissions(){
