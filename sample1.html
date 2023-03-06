@@ -11,6 +11,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
+        const version = "v1.03";
+        var portraitMode = true;
+
         function mobile_iOS(){            
             return ['iPad','iPhone'].includes(navigator.platform)
         }
@@ -32,7 +35,6 @@
         ul.style.marginLeft = "auto";
         ul.style.marginRight = "auto";
     
-
         document.body.appendChild(ul);
 
         var demoMode = false;        
@@ -52,9 +54,9 @@
         }                                
 
         function stopDemo() {
-            stopOrientationTracking();
-            lbl.textContent = "Press button to start demo";
+            stopOrientationTracking();            
             btn.textContent = "Start Demo";
+            lbl.textContent = version + " " + navigator.platform;
         }
 
         // Create Label
@@ -101,12 +103,14 @@
         function onResize() {
             // Simple detection of protrait / landscape orientation
             if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
+                portraitMode = false;
                 canvas.width = document.body.clientHeight * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
                     ul.children[i].style.float = "left";
                     ul.children[i].style.marginRight = "18px";                   
                 }                
             } else { // Portrait mode
+                portraitMode = true;
                 canvas.width = document.body.clientWidth * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
                     ul.children[i].style.float = "none";
@@ -115,7 +119,7 @@
             }
             
             canvas.height = canvas.width;
-            drawBars(0, 0, 0);
+            drawOrientation(0, 0, 0);
             lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();
         }
 
@@ -124,18 +128,24 @@
         window.addEventListener("resize", onResize, false);        
         
 
-        function drawBars(frontToBack, leftToRight, rotateDegrees) {
+        function drawOrientation(frontToBack, leftToRight, rotateDegrees) {
             // leftToRight -90 <> 90
-            const lr = leftToRight / 90.0;
-            const fb = frontToBack / 90.0;
-            const centerX = canvas.width/2 - 5;
-            const centerY = canvas.height/2 - 5;
+            const l2r = leftToRight / 90.0;
+            const f2b = frontToBack / 90.0;
+            const centerX = canvas.width/2;
+            const centerY = canvas.height/2;
             const ctx = canvas.getContext("2d");
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
             ctx.fillStyle = "MediumBlue";
-            ctx.arc(centerX + centerX*lr, centerY + centerY*fb, 10, 0, 1.5 * Math.PI);
+            let X = centerX + centerX*l2r;
+            let Y = centerY + centerY*f2b;
+            if (portraitMode){
+                ctx.arc(X, Y, 10, 0, 1.5 * Math.PI);                
+            } else {
+                ctx.arc(Y, X, 10, 0, 1.5 * Math.PI);
+            }
             ctx.fill();            
         }        
 
@@ -144,7 +154,7 @@
             const frontToBack = event.beta.toFixed(0); // beta: front back motion
             const leftToRight = event.gamma.toFixed(0); // gamma: left to right            
             lbl.textContent = frontToBack + "\t" + leftToRight + "\t" +  rotateDegrees;
-            drawBars(frontToBack, leftToRight, rotateDegrees);            
+            drawOrientation(frontToBack, leftToRight, rotateDegrees);            
         }
 
         function getAccelerometerPermissions(){
@@ -173,7 +183,7 @@
             }
         }
 
-        lbl.textContent = "v1.10: " + navigator.platform;
+        lbl.textContent = version + " " + navigator.platform;
 
     </script>
 </body>
