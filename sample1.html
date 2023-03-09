@@ -66,8 +66,7 @@
         lbl.style.border= "medium solid black"; // width | style | color 
         lbl.style.borderRadius = "10px";
         lbl.style.marginBottom = "58px";
-        lbl.style.lineHeight = "60px";
-        
+        lbl.style.lineHeight = "60px";        
         ul.appendChild(lbl);
 
         // Create canvas area
@@ -76,7 +75,6 @@
         canvas.style.borderRadius = "10px";        
         canvas.style.border = "medium solid black";
         canvas.style.marginBottom = "58px";
-               
         ul.appendChild(canvas);
 
         var btn = document.createElement("Button");
@@ -89,16 +87,14 @@
         btn.style.borderRadius = "10px";
         btn.style.border= "medium solid black"; // width | style | color 
         btn.style.marginBottom = "58px";
-
         btn.addEventListener("click", toggleDemoMode);
         btn.textContent = "Start Demo";
-        
         ul.appendChild(btn)
 
         function onResize() {
             // Simple detection of protrait / landscape orientation
             if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
-                portraitMode = false;
+                portraitMode = false;                
                 canvas.width = document.body.clientHeight * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
                     ul.children[i].style.float = "left";
@@ -114,6 +110,7 @@
             }
             
             canvas.height = canvas.width;
+            startAlpha = -1;
             if(portraitMode) {
                 drawOrientation(0, 35, 0);
             } else {
@@ -123,15 +120,14 @@
         }
 
         onResize();
-        window.addEventListener("resize", onResize, false);        
-        
-        function project(canvas, size, coord) {            
-            if(coord < -1.0) {
-                coord = -1.0;
-            } else if (coord > 1.0) {
-                coord = 1.0;
-            }
-            return canvas.width/2 + (canvas.width/2 - size)*coord;
+        window.addEventListener("resize", onResize, false);
+
+        function getBetween(val, min, max) {
+            return (val > min) ? ((val < max) ? val : max) : min;            
+        }
+
+        function project(canvas, size, coord) {
+            return canvas.width/2 + (canvas.width/2 - size) * getBetween(coord, -1.0, 1.0);
         }
 
         function drawCircle(ctx, x, y, radius, color) {
