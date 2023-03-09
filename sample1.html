@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en-US">
- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rulik WebSamples</title>
 </head>
-
 <body>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
         const version = "Sample1 v1.13";
         var portraitMode = true;
+        var startAlpha = -1; // -1 - Not initialized.
 
         function mobile_iOS(){            
             return ['iPad','iPhone'].includes(navigator.platform)
         }
 
-        // This will set up document.body dimentions
         document.body.style.width = "100vw";
         document.body.style.height = "100vh";
         document.body.style.margin=0;        
@@ -70,7 +68,6 @@
         lbl.style.marginBottom = "58px";
         lbl.style.lineHeight = "60px";
         
-        
         ul.appendChild(lbl);
 
         // Create canvas area
@@ -91,13 +88,11 @@
         btn.style.fontSize = '20px';
         btn.style.borderRadius = "10px";
         btn.style.border= "medium solid black"; // width | style | color 
-        btn.style.marginBottom = "58px";        
-        
+        btn.style.marginBottom = "58px";
 
         btn.addEventListener("click", toggleDemoMode);
         btn.textContent = "Start Demo";
         
-        //liArr[2].appendChild(btn);
         ul.appendChild(btn)
 
         function onResize() {
@@ -120,7 +115,7 @@
             
             canvas.height = canvas.width;
             if(portraitMode) {
-                drawOrientation(45, 35, 0);
+                drawOrientation(0, 35, 0);
             } else {
                 drawOrientation(45, -0, -35);
             }
@@ -128,23 +123,32 @@
         }
 
         onResize();
-
         window.addEventListener("resize", onResize, false);        
         
-        function toRange(center, pos, radius) {            
-            if(pos < -1.0) {
-                pos = -1.0;
-            } else if (pos > 1.0) {
-                pos = 1.0;
+        function project(canvas, size, coord) {            
+            if(coord < -1.0) {
+                coord = -1.0;
+            } else if (coord > 1.0) {
+                coord = 1.0;
             }
-            return center + (center - radius)*pos;
+            return canvas.width/2 + (canvas.width/2 - size)*coord;
+        }
+
+        function drawCircle(ctx, x, y, radius, color) {
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);            
+            ctx.fill();
         }
 
         function drawOrientation(alpha, beta, gamma) {
+            if(startAlpha < 0){
+                startAlpha = alpha;
+            }
             let x, y;
             const offset = 35.0; // It it common to hold device at 45 degree
             const scale = 15.0; // 15 degree scale
-            const radius = 16.0;
+            const radius = 24.0;
             if (portraitMode){
                 x = gamma / scale;
                 y = (beta - offset) / scale;
@@ -153,21 +157,19 @@
                 y = -(gamma + offset) / scale;
             }
 
-            const centerX = canvas.width/2.0;
-            const centerY = canvas.height/2.0;
             const ctx = canvas.getContext("2d");
             ctx.fillStyle = "Gray";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-            ctx.fillStyle = "DeepSkyBlue";
 
-            let startAngle = (alpha / 360) * 2 * Math.PI + 0.40;
-            let endAngle = (alpha / 360) * 2 * Math.PI - 0.40;
-            x = toRange(centerX, x, radius);
-            y = toRange(centerY, y, radius);
-            ctx.arc(x, y, radius, startAngle, endAngle);
-            ctx.lineTo(x, y);
-            ctx.fill();            
+            x = project(canvas, radius, x);
+            y = project(canvas, radius, y);
+            drawCircle(ctx, x, y, radius,  "DeepSkyBlue");
+            
+            let alphaAngle = 90 + (startAlpha - alpha)*scale;
+            const whiteRadius = radius*2/3.5;
+            x = x + whiteRadius * Math.cos(alphaAngle*Math.PI/180);
+            y = y - whiteRadius * Math.sin(alphaAngle*Math.PI/180);
+            drawCircle(ctx, x, y, whiteRadius/2,  "White");
         }        
 
         function orientationEventHandler(event){
@@ -205,7 +207,6 @@
         }
 
         lbl.textContent = version;
-
     </script>
 </body>
 </html>
