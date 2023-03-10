@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample1 v1.16';
+        const version = 'Sample1 v1.17';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -46,7 +46,8 @@
             if(demoMode){                
                 stopDemo();
                 demoMode = false;
-            } else {                
+            } else {
+                startAlpha = -1;
                 startDemo();
                 demoMode = true;
             }
@@ -104,8 +105,7 @@
             drawOrientation(90, 35, 0);
         } else {
             drawOrientation(45, -0, -35);
-        }
-        startAlpha = -1; // Restore uninitialized condition
+        }        
 
         window.addEventListener('resize', onResize, false);
 
