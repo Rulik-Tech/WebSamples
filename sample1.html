@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample1 v1.14';
+        const version = 'Sample1 v1.15';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -29,11 +29,8 @@
             element.style.display = 'inline-block';
             element.style.border = 'medium solid black'; // width | style | color
             element.style.fontSize = '20px';
-            //element.style.height = '60px';
-            element.style.lineHeight = '60px';
             element.style.marginBottom = '58px';
             element.style.borderRadius = '10px';
-            //element.style.width = '200px';
             for (let k in style){
                 element.style[k] = style[k]; 
             }
@@ -43,14 +40,6 @@
 
         let ul = createElement('ul', document.body, 
             style = {marginTop : '24px', border : 'none', listStyle : 'none', paddingLeft : '0', width:null});
-        //ul.style.marginTop = '24px';
-        //ul.style.display = 'inline-block';
-        //ul.style.listStyle = 'none';
-        //ul.style.paddingLeft = '0'        
-        //ul.style.textAlign = 'center';
-        //ul.style.marginLeft = 'auto';
-        //ul.style.marginRight = 'auto';
-        //document.body.appendChild(ul);
 
         var demoMode = false;        
         function toggleDemoMode(){
@@ -75,44 +64,17 @@
         }
 
         // Create Label
-        let lbl = createElement('Label', ul, {width: '200px', height:'60px'});        
-        //var lbl = document.createElement('Label');
-        //lbl.style.display = 'inline-block';
-        //lbl.style.height = '60px';
-        //lbl.style.lineHeight = '60px';
-        //lbl.style.width = '200px';
-        //lbl.style.fontSize = '20px';
-        //lbl.style.border= 'medium solid black'; // width | style | color 
-        //lbl.style.borderRadius = '10px';
-        //lbl.style.marginBottom = '58px';
-        
-        //ul.appendChild(lbl);
+        let lbl = createElement('Label', ul, style={width:'200px', height:'60px', lineHeight:'60px'});        
 
         // Create canvas area
-        let canvas = createElement('Canvas', ul, {width: null, height: null});
-        //var canvas = document.createElement('Canvas');
-        //canvas.style.display = 'inline-block';
-        //canvas.style.borderRadius = '10px';        
-        //canvas.style.border = 'medium solid black';
-        //canvas.style.marginBottom = '58px';
-        //ul.appendChild(canvas);
+        let canvas = createElement('Canvas', ul, style={width:null, height:null});
 
-        var btn = document.createElement('Button');
-        btn.style.display = 'inline-block';
-        btn.style.background = 'DeepSkyBlue';
-        btn.style.color = 'white';
-        btn.style.height = '60px';
-        btn.style.width = '180px';
-        btn.style.fontSize = '20px';
-        btn.style.borderRadius = '10px';
-        btn.style.border= 'medium solid black'; // width | style | color 
-        btn.style.marginBottom = '58px';
+        // Create Button
+        let btn = createElement('Button', ul, style={width:'200px', height:'60px', background:'DeepSkyBlue', color:'white'});   
         btn.addEventListener('click', toggleDemoMode);
         btn.textContent = 'Start Demo';
-        ul.appendChild(btn)
-
-        function onResize() {
-            // Simple detection of protrait / landscape orientation
+ 
+        function onResize() {            
             if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
                 portraitMode = false;                
                 canvas.width = document.body.clientHeight * 0.7;
@@ -129,28 +91,33 @@
                 }
             }
             
-            canvas.height = canvas.width;
+            canvas.height = canvas.width;            
             startAlpha = -1;
-            if(portraitMode) {
-                drawOrientation(0, 35, 0);
-            } else {
-                drawOrientation(45, -0, -35);
-            }
             //lbl.textContent = document.body.clientWidth.toString()+ ' ' + document.body.clientHeight.toString();            
         }
 
         onResize();
+
+        // This is used for debugging purposes
+        if(portraitMode) {
+            startAlpha = 96;
+            drawOrientation(90, 35, 0);
+        } else {
+            drawOrientation(45, -0, -35);
+        }
+        startAlpha = -1; // Restore uninitialized condition
+
         window.addEventListener('resize', onResize, false);
 
-        function getBetween(val, min, max) {
+        function getBetween(val, min, max) { // Helper function toimpose limits
             return (val > min) ? ((val < max) ? val : max) : min;            
         }
 
-        function project(canvas, size, coord) {
+        function project(canvas, size, coord) { // Return coorrdinate of a center of object 
             return canvas.width/2 + (canvas.width/2 - size) * getBetween(coord, -1.0, 1.0);
         }
 
-        function drawCircle(ctx, x, y, radius, color) {
+        function drawCircle(ctx, x, y, radius, color) { // Helper function to draw a circle
             ctx.beginPath();
             ctx.fillStyle = color;
             ctx.arc(x, y, radius, 0, 2 * Math.PI);            
@@ -158,13 +125,13 @@
         }
 
         function drawOrientation(alpha, beta, gamma) {
-            if(startAlpha < 0){
+            if(startAlpha < 0) {
                 startAlpha = alpha;
             }
             let x, y;
             const offset = 35.0; // It it common to hold device at 45 degree
             const scale = 15.0; // 15 degree scale
-            const radius = 24.0;
+            const radius = 24.0; // Circle radius
             if (portraitMode){
                 x = gamma / scale;
                 y = (beta - offset) / scale;
@@ -181,7 +148,7 @@
             y = project(canvas, radius, y);
             drawCircle(ctx, x, y, radius,  'DeepSkyBlue');
             
-            let alphaAngle = 90 + (startAlpha - alpha)*scale;
+            let alphaAngle = 90 + (startAlpha - alpha)*10;
             const whiteRadius = radius*2/3.5;
             x = x + whiteRadius * Math.cos(alphaAngle*Math.PI/180);
             y = y - whiteRadius * Math.sin(alphaAngle*Math.PI/180);
