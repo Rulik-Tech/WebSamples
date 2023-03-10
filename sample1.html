@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang='en-US'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Rulik WebSamples</title>
 </head>
 <body>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = "Sample1 v1.13";
+        const version = 'Sample1 v1.14';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -17,23 +17,40 @@
             return ['iPad','iPhone'].includes(navigator.platform)
         }
 
-        document.body.style.width = "100vw";
-        document.body.style.height = "100vh";
+        document.body.style.width = '100vw';
+        document.body.style.height = '100vh';
         document.body.style.margin=0;        
-        document.body.style.background = "Silver";
+        document.body.style.background = 'Silver';
         document.body.style.overflow = 'hidden';
-        document.body.style.textAlign = "center";
+        document.body.style.textAlign = 'center';
 
-        var ul = document.createElement('ul');        
-        ul.style.marginTop = "24px";
-        ul.style.display = "inline-block";
-        ul.style.listStyle = "none";
-        ul.style.paddingLeft = "0"        
-        ul.style.textAlign = "center";
-        ul.style.marginLeft = "auto";
-        ul.style.marginRight = "auto";
-    
-        document.body.appendChild(ul);
+        function createElement(tagName, parent, style) {
+            let element = document.createElement(tagName);
+            element.style.display = 'inline-block';
+            element.style.border = 'medium solid black'; // width | style | color
+            element.style.fontSize = '20px';
+            //element.style.height = '60px';
+            element.style.lineHeight = '60px';
+            element.style.marginBottom = '58px';
+            element.style.borderRadius = '10px';
+            //element.style.width = '200px';
+            for (let k in style){
+                element.style[k] = style[k]; 
+            }
+            parent.appendChild(element);
+            return element;
+        }
+
+        let ul = createElement('ul', document.body, 
+            style = {marginTop : '24px', border : 'none', listStyle : 'none', paddingLeft : '0', width:null});
+        //ul.style.marginTop = '24px';
+        //ul.style.display = 'inline-block';
+        //ul.style.listStyle = 'none';
+        //ul.style.paddingLeft = '0'        
+        //ul.style.textAlign = 'center';
+        //ul.style.marginLeft = 'auto';
+        //ul.style.marginRight = 'auto';
+        //document.body.appendChild(ul);
 
         var demoMode = false;        
         function toggleDemoMode(){
@@ -47,48 +64,51 @@
         }
 
         function startDemo() {
-            btn.textContent = "Exit Demo";
+            btn.textContent = 'Exit Demo';
             startOrientationTracking();
         }                                
 
         function stopDemo() {
             stopOrientationTracking();            
-            btn.textContent = "Start Demo";
+            btn.textContent = 'Start Demo';
             lbl.textContent = version;
         }
 
         // Create Label
-        var lbl = document.createElement("Label");
-        lbl.style.display = "inline-block";
-        lbl.style.height = '60px';
-        lbl.style.width = '200px';
-        lbl.style.fontSize = '20px';
-        lbl.style.border= "medium solid black"; // width | style | color 
-        lbl.style.borderRadius = "10px";
-        lbl.style.marginBottom = "58px";
-        lbl.style.lineHeight = "60px";        
-        ul.appendChild(lbl);
+        let lbl = createElement('Label', ul, {width: '200px', height:'60px'});        
+        //var lbl = document.createElement('Label');
+        //lbl.style.display = 'inline-block';
+        //lbl.style.height = '60px';
+        //lbl.style.lineHeight = '60px';
+        //lbl.style.width = '200px';
+        //lbl.style.fontSize = '20px';
+        //lbl.style.border= 'medium solid black'; // width | style | color 
+        //lbl.style.borderRadius = '10px';
+        //lbl.style.marginBottom = '58px';
+        
+        //ul.appendChild(lbl);
 
         // Create canvas area
-        var canvas = document.createElement("Canvas");
-        canvas.style.display = "inline-block";
-        canvas.style.borderRadius = "10px";        
-        canvas.style.border = "medium solid black";
-        canvas.style.marginBottom = "58px";
-        ul.appendChild(canvas);
+        let canvas = createElement('Canvas', ul, {width: null, height: null});
+        //var canvas = document.createElement('Canvas');
+        //canvas.style.display = 'inline-block';
+        //canvas.style.borderRadius = '10px';        
+        //canvas.style.border = 'medium solid black';
+        //canvas.style.marginBottom = '58px';
+        //ul.appendChild(canvas);
 
-        var btn = document.createElement("Button");
-        btn.style.display = "inline-block";
+        var btn = document.createElement('Button');
+        btn.style.display = 'inline-block';
         btn.style.background = 'DeepSkyBlue';
         btn.style.color = 'white';
         btn.style.height = '60px';
         btn.style.width = '180px';
         btn.style.fontSize = '20px';
-        btn.style.borderRadius = "10px";
-        btn.style.border= "medium solid black"; // width | style | color 
-        btn.style.marginBottom = "58px";
-        btn.addEventListener("click", toggleDemoMode);
-        btn.textContent = "Start Demo";
+        btn.style.borderRadius = '10px';
+        btn.style.border= 'medium solid black'; // width | style | color 
+        btn.style.marginBottom = '58px';
+        btn.addEventListener('click', toggleDemoMode);
+        btn.textContent = 'Start Demo';
         ul.appendChild(btn)
 
         function onResize() {
@@ -97,14 +117,14 @@
                 portraitMode = false;                
                 canvas.width = document.body.clientHeight * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
-                    ul.children[i].style.float = "left";
-                    ul.children[i].style.marginRight = "18px";                   
+                    ul.children[i].style.float = 'left';
+                    ul.children[i].style.marginRight = '18px';                   
                 }                
             } else { // Portrait mode
                 portraitMode = true;
                 canvas.width = document.body.clientWidth * 0.7;
                 for (let i = 0; i < ul.children.length; i++) {
-                    ul.children[i].style.float = "none";
+                    ul.children[i].style.float = 'none';
                     ul.children[i].style.marginRight = 0;                    
                 }
             }
@@ -116,11 +136,11 @@
             } else {
                 drawOrientation(45, -0, -35);
             }
-            //lbl.textContent = document.body.clientWidth.toString()+ " " + document.body.clientHeight.toString();            
+            //lbl.textContent = document.body.clientWidth.toString()+ ' ' + document.body.clientHeight.toString();            
         }
 
         onResize();
-        window.addEventListener("resize", onResize, false);
+        window.addEventListener('resize', onResize, false);
 
         function getBetween(val, min, max) {
             return (val > min) ? ((val < max) ? val : max) : min;            
@@ -153,33 +173,33 @@
                 y = -(gamma + offset) / scale;
             }
 
-            const ctx = canvas.getContext("2d");
-            ctx.fillStyle = "Gray";
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'Gray';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             x = project(canvas, radius, x);
             y = project(canvas, radius, y);
-            drawCircle(ctx, x, y, radius,  "DeepSkyBlue");
+            drawCircle(ctx, x, y, radius,  'DeepSkyBlue');
             
             let alphaAngle = 90 + (startAlpha - alpha)*scale;
             const whiteRadius = radius*2/3.5;
             x = x + whiteRadius * Math.cos(alphaAngle*Math.PI/180);
             y = y - whiteRadius * Math.sin(alphaAngle*Math.PI/180);
-            drawCircle(ctx, x, y, whiteRadius/2,  "White");
+            drawCircle(ctx, x, y, whiteRadius/2,  'White');
         }        
 
         function orientationEventHandler(event){
             const a = event.alpha.toFixed(0); // alpha: rotation around z-axis
             const b = event.beta.toFixed(0); // beta: front back motion
             const g = event.gamma.toFixed(0); // gamma: left to right            
-            lbl.textContent = "A: " + a + " B: " + b + " G: " +  g;
+            lbl.textContent = 'A: ' + a + ' B: ' + b + ' G: ' +  g;
             drawOrientation(event.alpha, event.beta, event.gamma);
         }
 
         function getAccelerometerPermissions(){
             DeviceMotionEvent.requestPermission().then(response => {
                 if (response == 'granted') {
-                    window.addEventListener("deviceorientation", orientationEventHandler, true);
+                    window.addEventListener('deviceorientation', orientationEventHandler, true);
                 }
             });
         }
@@ -189,16 +209,16 @@
                 if(mobile_iOS()){
                     getAccelerometerPermissions();
                 } else {
-                    window.addEventListener("deviceorientation", orientationEventHandler, true);
+                    window.addEventListener('deviceorientation', orientationEventHandler, true);
                 }
             } else {
-                lbl.textContent = "Orientation not availanle";                
+                lbl.textContent = 'Orientation not availanle';                
             }
         }
 
         function stopOrientationTracking(){
             if (window.DeviceOrientationEvent) {
-                window.removeEventListener("deviceorientation", orientationEventHandler, true);    
+                window.removeEventListener('deviceorientation', orientationEventHandler, true);    
             }
         }
 
