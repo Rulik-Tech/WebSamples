@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample1 v1.17';
+        const version = 'Sample1 v1.18';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -92,20 +92,18 @@
                 }
             }
             
-            canvas.height = canvas.width;            
+            canvas.height = canvas.width;
+            if(portraitMode) {
+                startAlpha = 96;  // This is used for debugging purposes
+                drawOrientation(90, 35, 0);
+            } else {
+                drawOrientation(45, -0, -35);
+            }        
             startAlpha = -1;
             //lbl.textContent = document.body.clientWidth.toString()+ ' ' + document.body.clientHeight.toString();            
         }
 
-        onResize();
-
-        // This is used for debugging purposes
-        if(portraitMode) {
-            startAlpha = 96;
-            drawOrientation(90, 35, 0);
-        } else {
-            drawOrientation(45, -0, -35);
-        }        
+        onResize();       
 
         window.addEventListener('resize', onResize, false);
 
