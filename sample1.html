@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample1 v1.15';
+        const version = 'Sample1 v1.16';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -43,12 +43,12 @@
 
         var demoMode = false;        
         function toggleDemoMode(){
-            if(demoMode){
-                demoMode = false;
+            if(demoMode){                
                 stopDemo();
-            } else {
-                demoMode = true;
+                demoMode = false;
+            } else {                
                 startDemo();
+                demoMode = true;
             }
         }
 
@@ -70,7 +70,7 @@
         let canvas = createElement('Canvas', ul, style={width:null, height:null});
 
         // Create Button
-        let btn = createElement('Button', ul, style={width:'200px', height:'60px', background:'DeepSkyBlue', color:'white'});   
+        let btn = createElement('Button', ul, style={width:'180px', height:'60px', background:'DeepSkyBlue', color:'white'});   
         btn.addEventListener('click', toggleDemoMode);
         btn.textContent = 'Start Demo';
  
