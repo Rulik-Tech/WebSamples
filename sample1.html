@@ -144,13 +144,13 @@
 
             x = project(canvas, radius, x);
             y = project(canvas, radius, y);
-            //drawCircle(ctx, x, y, radius,  'DeepSkyBlue');
+            drawCircle(ctx, x, y, radius,  'DeepSkyBlue');
             
             let alphaAngle = 90 + (startAlpha - alpha)*10;
             const whiteRadius = radius*2/3.5;
             x = x + whiteRadius * Math.cos(alphaAngle*Math.PI/180);
             y = y - whiteRadius * Math.sin(alphaAngle*Math.PI/180);
-            //drawCircle(ctx, x, y, whiteRadius/2,  'White');
+            drawCircle(ctx, x, y, whiteRadius/2,  'White');
         }        
 
         function orientationEventHandler(event){
