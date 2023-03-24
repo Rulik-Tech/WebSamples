@@ -164,9 +164,9 @@
         }
 
         function motionEventHandler(event){
-            const x = event.acceleration.x.toFixed(0);
-            const y = event.acceleration.y.toFixed(0);
-            const z = event.acceleration.z.toFixed(0);
+            const x = (event.acceleration.x * 1000).toFixed(0);
+            const y = (event.acceleration.y*1000).toFixed(0);
+            const z = (event.acceleration.z*1000).toFixed(0);
             const t = event.interval.toFixed(0);
             lbl1.textContent = 'X: ' + x + ' Y: ' + y + ' Z: ' +  z + ' T : ' + t;
         }
