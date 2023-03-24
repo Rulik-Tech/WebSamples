@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Rulik WebSamples</title>
+</head>
+<body>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>
+        const version = 'Sample1 v0.1';
+        var portraitMode = true;
+        var startAlpha = -1; // -1 - Not initialized.
+
+        function mobile_iOS(){            
+            return ['iPad','iPhone'].includes(navigator.platform)
+        }
+
+        document.body.style.width = '100vw';
+        document.body.style.height = '100vh';
+        document.body.style.margin=0;        
+        document.body.style.background = 'Silver';
+        document.body.style.overflow = 'hidden';
+        document.body.style.textAlign = 'center';
+
+        function createElement(tagName, parent, style) {
+            let element = document.createElement(tagName);
+            element.style.display = 'inline-block';
+            element.style.border = 'medium solid black'; // width | style | color
+            element.style.fontSize = '20px';
+            element.style.marginBottom = '58px';
+            element.style.borderRadius = '10px';
+            for (let k in style){
+                element.style[k] = style[k]; 
+            }
+            parent.appendChild(element);
+            return element;
+        }
+
+        let ul = createElement('ul', document.body, 
+            style = {marginTop : '24px', border : 'none', listStyle : 'none', paddingLeft : '0', width:null});
+
+        var demoMode = false;        
+        function toggleDemoMode(){
+            if(demoMode){                
+                stopDemo();
+                demoMode = false;
+            } else {
+                startAlpha = -1;
+                startDemo();
+                demoMode = true;
+            }
+        }
+
+        function startDemo() {
+            btn.textContent = 'Exit Demo';
+            startOrientationTracking();
+        }                                
+
+        function stopDemo() {
+            stopOrientationTracking();            
+            btn.textContent = 'Start Demo';
+            lbl.textContent = version;
+        }
+
+        // Create Label
+        let lbl = createElement('Label', ul, style={width:'220px', height:'120px', lineHeight:'30px'});        
+
+        // Create canvas area
+        let canvas = createElement('Canvas', ul, style={width:null, height:null});
+
+        // Create Button
+        let btn = createElement('Button', ul, style={width:'170px', height:'60px', background:'DeepSkyBlue', color:'white'});   
+        btn.addEventListener('click', toggleDemoMode);
+        btn.textContent = 'Start Demo';
+ 
+        function onResize() {            
+            if (document.body.clientWidth > document.body.clientHeight){ // Landscape mode
+                portraitMode = false;                
+                canvas.width = document.body.clientHeight * 0.7;
+                for (let i = 0; i < ul.children.length; i++) {
+                    ul.children[i].style.float = 'left';
+                    ul.children[i].style.marginRight = '18px';                   
+                }                
+            } else { // Portrait mode
+                portraitMode = true;
+                canvas.width = document.body.clientWidth * 0.7;
+                for (let i = 0; i < ul.children.length; i++) {
+                    ul.children[i].style.float = 'none';
+                    ul.children[i].style.marginRight = 0;                    
+                }
+            }
+            
+            canvas.height = canvas.width;
+            if(portraitMode) {
+                startAlpha = 96;  // This is used for debugging purposes
+                drawOrientation(90, 35, 0);
+            } else {
+                drawOrientation(45, -0, -35);
+            }        
+            startAlpha = -1;
+            //lbl.textContent = document.body.clientWidth.toString()+ ' ' + document.body.clientHeight.toString();            
+        }
+
+        onResize();       
+
+        window.addEventListener('resize', onResize, false);
+
+        function getBetween(val, min, max) { // Helper function toimpose limits
+            return (val > min) ? ((val < max) ? val : max) : min;            
+        }
+
+        function project(canvas, size, coord) { // Return coorrdinate of a center of object 
+            return canvas.width/2 + (canvas.width/2 - size) * getBetween(coord, -1.0, 1.0);
+        }
+
+        function drawCircle(ctx, x, y, radius, color) { // Helper function to draw a circle
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);            
+            ctx.fill();
+        }
+
+        function drawOrientation(alpha, beta, gamma) {
+            if(startAlpha < 0) {
+                startAlpha = alpha;
+            }
+            let x, y;
+            const offset = 35.0; // It it common to hold device at 45 degree
+            const scale = 15.0; // 15 degree scale
+            const radius = 24.0; // Circle radius
+            if (portraitMode){
+                x = gamma / scale;
+                y = (beta - offset) / scale;
+            } else {
+                x = beta / scale;
+                y = -(gamma + offset) / scale;
+            }
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'Gray';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            x = project(canvas, radius, x);
+            y = project(canvas, radius, y);
+            drawCircle(ctx, x, y, radius,  'DeepSkyBlue');
+            
+            let alphaAngle = 90 + (startAlpha - alpha)*10;
+            const whiteRadius = radius*2/3.5;
+            x = x + whiteRadius * Math.cos(alphaAngle*Math.PI/180);
+            y = y - whiteRadius * Math.sin(alphaAngle*Math.PI/180);
+            drawCircle(ctx, x, y, whiteRadius/2,  'White');
+        }        
+
+        function orientationEventHandler(event){
+            const a = event.alpha.toFixed(0); // alpha: rotation around z-axis
+            const b = event.beta.toFixed(0); // beta: front back motion
+            const g = event.gamma.toFixed(0); // gamma: left to right            
+            lbl.textContent = 'A: ' + a + ' B: ' + b + ' G: ' +  g;
+            drawOrientation(event.alpha, event.beta, event.gamma);
+        }
+
+        function motionEventHandler(event){
+            const x = event.acceleration.x.toFixed(0);
+            const y = event.acceleration.y.toFixed(0);
+            const z = event.acceleration.z.toFixed(0);
+            const t = event.interval.toFixed(0);
+            lbl.textContent = 'X: ' + x + ' Y: ' + y + ' Z: ' +  z + ' T : ' + t;
+        }
+
+        function getAccelerometerPermissions(){
+            DeviceMotionEvent.requestPermission().then(response => {
+                if (response == 'granted') {
+                    window.addEventListener('deviceorientation', orientationEventHandler, true);
+                }
+            });
+        }
+
+        function startOrientationTracking(){
+            if (window.DeviceOrientationEvent) {
+                if(mobile_iOS()){
+                    getAccelerometerPermissions();
+                } else {
+                    window.addEventListener('deviceorientation', orientationEventHandler, true);
+                    window.addEventListener('devicemotion', motionEventHandler, true);
+                }
+            } else {
+                lbl.textContent = 'Orientation not availanle';                
+            }
+        }
+
+        function stopOrientationTracking(){
+            if (window.DeviceOrientationEvent) {
+                window.removeEventListener('deviceorientation', orientationEventHandler, true);
+                window.removeEventListener('deviceorientation', motionEventHandler, true);
+            }
+        }
+
+        lbl.textContent = version;
+        /* if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        // iOS 13+
+        } else {
+        // non iOS 13+
+        }
+        */
+    </script>
+</body>
+</html>
