@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample1 v0.1';
+        const version = 'Sample2 v0.1';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -29,7 +29,7 @@
             element.style.display = 'inline-block';
             element.style.border = 'medium solid black'; // width | style | color
             element.style.fontSize = '20px';
-            element.style.marginBottom = '58px';
+            element.style.marginBottom = '18px';
             element.style.borderRadius = '10px';
             for (let k in style){
                 element.style[k] = style[k]; 
@@ -65,7 +65,9 @@
         }
 
         // Create Label
-        let lbl = createElement('Label', ul, style={width:'220px', height:'120px', lineHeight:'30px'});        
+        let ul1 = createElement('ul', ul, style={border:'none'});
+        let lbl = createElement('Label', ul1, style={width:'220px', height:'40px', lineHeight:'30px', display:'block'});
+        let lbl1 = createElement('Label', ul1, style={width:'220px', height:'40px', lineHeight:'30px',display:'block'});
 
         // Create canvas area
         let canvas = createElement('Canvas', ul, style={width:null, height:null});
@@ -166,7 +168,7 @@
             const y = event.acceleration.y.toFixed(0);
             const z = event.acceleration.z.toFixed(0);
             const t = event.interval.toFixed(0);
-            lbl.textContent = 'X: ' + x + ' Y: ' + y + ' Z: ' +  z + ' T : ' + t;
+            lbl1.textContent = 'X: ' + x + ' Y: ' + y + ' Z: ' +  z + ' T : ' + t;
         }
 
         function getAccelerometerPermissions(){
@@ -193,7 +195,7 @@
         function stopOrientationTracking(){
             if (window.DeviceOrientationEvent) {
                 window.removeEventListener('deviceorientation', orientationEventHandler, true);
-                window.removeEventListener('deviceorientation', motionEventHandler, true);
+                window.removeEventListener('devicemotion', motionEventHandler, true);
             }
         }
 
