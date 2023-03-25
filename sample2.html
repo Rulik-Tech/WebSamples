@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample2 v0.3';
+        const version = 'Sample2 v0.31';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -166,8 +166,10 @@
         let distance = {x:0, y:0, z:0};
         let velocity = {x:0, y:0, z:0};
 
+        motionEventHandler(event={acceleration:{x:0.01,y:0.01,z:0.01}});
+
         function motionEventHandler(event){
-            let a;
+            let a = {};
             lbl1.textContent = '';
             for (let k in event.acceleration){
                 a[k] = (event.acceleration[k]* 1000).toFixed(0);
