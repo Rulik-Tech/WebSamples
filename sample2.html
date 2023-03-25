@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample2 v0.1';
+        const version = 'Sample2 v0.3';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -65,9 +65,9 @@
         }
 
         // Create Label
-        let ul1 = createElement('ul', ul, style={border:'none'});
-        let lbl = createElement('Label', ul1, style={width:'220px', height:'40px', lineHeight:'30px', display:'block'});
-        let lbl1 = createElement('Label', ul1, style={width:'220px', height:'40px', lineHeight:'30px',display:'block'});
+        let ul1 = createElement('ul', ul, style={border:'none', listStyle : 'none', paddingLeft : '0', width:null});
+        let lbl = createElement('Label', ul1, style={width:'260px', height:'40px', lineHeight:'30px', display:'block'});
+        let lbl1 = createElement('Label', ul1, style={width:'260px', height:'40px', lineHeight:'30px',display:'block'});
 
         // Create canvas area
         let canvas = createElement('Canvas', ul, style={width:null, height:null});
@@ -163,12 +163,24 @@
             drawOrientation(event.alpha, event.beta, event.gamma);
         }
 
+        let distance = {x:0, y:0, z:0};
+        let velocity = {x:0, y:0, z:0};
+
         function motionEventHandler(event){
+            let a;
+            lbl1.textContent = '';
+            for (let k in event.acceleration){
+                a[k] = (event.acceleration[k]* 1000).toFixed(0);
+                lbl1.textContent += k + ': ' + (event.acceleration[k]* 1000).toFixed(0) + ' ';
+            }
+            /*
             const x = (event.acceleration.x * 1000).toFixed(0);
             const y = (event.acceleration.y*1000).toFixed(0);
             const z = (event.acceleration.z*1000).toFixed(0);
             const t = event.interval.toFixed(0);
+            // D = v*t + 1/2*a*t^2
             lbl1.textContent = 'X: ' + x + ' Y: ' + y + ' Z: ' +  z + ' T : ' + t;
+            */
         }
 
         function getAccelerometerPermissions(){
