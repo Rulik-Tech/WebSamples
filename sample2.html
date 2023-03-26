@@ -166,14 +166,16 @@
         let distance = {x:0, y:0, z:0};
         let velocity = {x:0, y:0, z:0};
 
-        motionEventHandler(event={acceleration:{x:0.01,y:0.01,z:0.01}});
+        motionEventHandler(event={acceleration:{x:0.1,y:0.001,z:0.001}, interval:16});
 
-        function motionEventHandler(event){
-            let a = {};
+        function motionEventHandler(event){            
+            let t = event.interval / 1000.0;
             lbl1.textContent = '';
             for (let k in event.acceleration){
-                a[k] = (event.acceleration[k]* 1000).toFixed(0);
-                lbl1.textContent += k + ': ' + (event.acceleration[k]* 1000).toFixed(0) + ' ';
+                distance[k] = velocity[k] * t + 0.5 * event.acceleration[k] * t*t;
+                velocity[k] =  event.acceleration[k] * t;
+                
+                lbl1.textContent += k + ': ' + (distance[k] * 1000).toFixed(3) + ' ';
             }
             /*
             const x = (event.acceleration.x * 1000).toFixed(0);
