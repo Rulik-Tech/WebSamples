@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample2 v0.4';
+        const version = 'Sample2 v0.41';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -197,6 +197,11 @@
         }
 
         function startOrientationTracking(){
+            for (let k in velocity) {
+                velocity[k] = 0;
+                distance[k] = 0;
+            }
+
             if (window.DeviceOrientationEvent) {
                 if(mobile_iOS()){
                     getAccelerometerPermissions();
