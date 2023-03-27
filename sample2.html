@@ -9,7 +9,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script>
-        const version = 'Sample2 v0.50';
+        const version = 'Sample2 v0.51';
         var portraitMode = true;
         var startAlpha = -1; // -1 - Not initialized.
 
@@ -155,7 +155,10 @@
             drawCircle(ctx, x, y, whiteRadius/2,  'White');
         }        
 
+        let lastAlpha = 0;
+
         function orientationEventHandler(event){
+            lastAlpha = event.alpha;
             const a = event.alpha.toFixed(0); // alpha: rotation around z-axis
             const b = event.beta.toFixed(0); // beta: front back motion
             const g = event.gamma.toFixed(0); // gamma: left to right            
@@ -163,8 +166,6 @@
             drawOrientation(event.alpha, event.beta, event.gamma);
         }
 
-        let distance = {x:0, y:0, z:0};
-        let velocity = {x:0, y:0, z:0};
         let elapsed_time = 0;
         let series = [];
 
@@ -176,16 +177,13 @@
             lbl1.textContent = '';
             let a = {};
             for (let k in event.acceleration){
-                /*
-                distance[k] += velocity[k] * t + 0.5 * event.acceleration[k] * t*t;
-                velocity[k] =  event.acceleration[k] * t;                
-                lbl1.textContent += k + ': ' + (distance[k] * 1000).toFixed(3) + ' ';
-                */
                a[k] = event.acceleration[k];               
             }
             
             a['t'] = elapsed_time;
-            if(elapsed_time < 5000){
+            a['alpha'] = lastAlpha;
+
+            if(elapsed_time < 15000){
                 series.push(a);
                 elapsed_time += event.interval;
             }
@@ -201,12 +199,9 @@
         }
 
         function startOrientationTracking(){
-            for (let k in velocity) {
-                velocity[k] = 0;
-                distance[k] = 0;
-            }
+            series = [];
             elapsed_time = 0;
-            //navigator.clipboard.writeText('Clipboard API test!!!');
+            navigator.clipboard.writeText('');            
 
             if (window.DeviceOrientationEvent) {
                 if(mobile_iOS()){
@@ -230,6 +225,7 @@
             }
 
             navigator.clipboard.writeText(out);
+
             if (window.DeviceOrientationEvent) {
                 window.removeEventListener('deviceorientation', orientationEventHandler, true);
                 window.removeEventListener('devicemotion', motionEventHandler, true);
